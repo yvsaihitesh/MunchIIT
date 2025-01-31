@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+</head>
+<body>
+    <h1>Your Cart</h1>
+    <% if (cart && cart.items.length > 0) { %>
+        <ul>
+            <% cart.items.forEach(food => { %>
+                <li>
+                    <h2><%= food.item.ItemName %></h2>
+                    <p>Price: &#8377;<%= food.item.Price %></p>
+                    <p>Quantity: 
+                        <input type="number" id="quantity-<%= food.item._id %>" value="<%= food.quantity %>" min="1" />
+                    </p>
+                    <button onclick="updateQuantity('<%= food.item._id %>', '<%= food.quantity %>')">Update Quantity</button>
+                    <button onclick="deleteItem('<%= food.item._id %>')">Delete</button>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>Your cart is empty.</p>
+    <% } %>
+    <a href="/">Continue Shopping</a>
+
+    <script>
+        function updateQuantity(itemId, currentQuantity) {
+            const newQuantity = document.getElementById(`quantity-${itemId}`).value;
+            if (newQuantity && newQuantity > 0) {
+                fetch(`/cart/update/${itemId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ quantity: newQuantity })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Quantity updated successfully!');
+                        location.reload(); // Reload the page to see the updated cart
+                    } else {
+                        alert('Failed to update quantity.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                alert('Please enter a valid quantity.');
+            }
+        }
+
+        function deleteItem(itemId) {
+            if (confirm('Are you sure you want to delete this item from your cart?')) {
+                fetch(`/cart/delete/${itemId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Item deleted successfully!');
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        response.json().then(data => {
+                            alert(data.error || 'Failed to delete item.');
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while trying to delete the item.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Ordering Home Page</title>
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <style>
+    /* Sticky Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+      background-color: #343a40;
+    }
+    .cart-count {
+      font-size: 0.8rem;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 0 6px;
+    }
+    .search-bar {
+      margin: 20px 0;
+    }
+    .food-card {
+      position: relative;
+    }
+    .food-rating {
+      color: #ffc107; /* Gold for stars */
+      font-size: 1.2rem;
+    }
+    .btn-group {
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn-add-to-cart {
+      width: 100%;
+    }
+    .carousel-item img {
+      height: 400px;
+      object-fit: cover;
+    }
+    .background {
+       height: 100%;
+       width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><i class="bi bi-shop"></i> Foodie's Delight</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#"><i class="bi bi-house-door"></i> Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right"></i> Login/Signup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-chat-dots"></i> Chat</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-cart"></i> Cart
+              <span id="cart-count" class="cart-count">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-person-circle"></i> Profile</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="background">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 600">
+    <defs>
+      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color: #4b0082; stop-opacity: 1;" />
+        <stop offset="100%" style="stop-color: #ffffff; stop-opacity: 1;" />
+      </linearGradient>
+    </defs>
+    <path fill="url(#gradient)" d="M0,192L80,176C160,160,320,128,480,144C640,160,800,224,960,234.7C1120,245,1280,203,1360,181.3L1440,160L1440,600L1360,600C1280,600,1120,600,960,600C800,600,640,600,480,600C320,600,160,600,80,600L0,600Z"></path>
+  </svg>
+  </div>
+  <!-- Carousel -->
+  <div id="foodCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://via.placeholder.com/1200x400?text=Popular+Item+1" class="d-block w-100" alt="Item 1">
+      </div>
+      <div class="carousel-item">
+        <img src="https://via.placeholder.com/1200x400?text=Popular+Item+2" class="d-block w-100" alt="Item 2">
+      </div>
+      <div class="carousel-item">
+        <img src="https://via.placeholder.com/1200x400?text=Popular+Item+3" class="d-block w-100" alt="Item 3">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#foodCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#foodCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="container search-bar">
+    <input type="text" id="search-bar" class="form-control" placeholder="Search for food items..." oninput="filterItems()">
+  </div>
+
+  <!-- Food Items -->
+  <div class="container">
+    <div id="food-items" class="row g-3">
+      <!-- Food cards will be injected here by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const foodItems = [
+      { id: 1, name: "Pizza", image: "https://via.placeholder.com/300?text=Pizza", price: "$10", rating: 4.5 },
+      { id: 2, name: "Burger", image: "https://via.placeholder.com/300?text=Burger", price: "$7", rating: 4.2 },
+      { id: 3, name: "Pasta", image: "https://via.placeholder.com/300?text=Pasta", price: "$8", rating: 4.7 },
+    ];
+    const cart = {};
+
+    function renderFoodItems(items) {
+      const container = document.getElementById("food-items");
+      container.innerHTML = "";
+      items.forEach(item => {
+        container.innerHTML += `
+          <div class="col-md-4">
+            <div class="card food-card shadow">
+              <img src="${item.image}" class="card-img-top" alt="${item.name}">
+              <div class="card-body">
+                <h5 class="card-title">${item.name}</h5>
+                <p class="card-text">Price: ${item.price}</p>
+                <p class="food-rating">${"★".repeat(Math.floor(item.rating))} ${item.rating.toFixed(1)}</p>
+                <div id="cart-controls-${item.id}" class="btn-group">
+                  <button class="btn btn-sm btn-danger" onclick="updateCart(${item.id}, -1)">-</button>
+                  <span id="item-count-${item.id}" class="mx-2">0</span>
+                  <button class="btn btn-sm btn-success" onclick="updateCart(${item.id}, 1)">+</button>
+                </div>
+                <button id="add-to-cart-${item.id}" class="btn btn-primary btn-add-to-cart" onclick="addToCart(${item.id})">
+                  <i class="bi bi-cart-plus"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function addToCart(id) {
+      document.getElementById(`add-to-cart-${id}`).style.display = "none";
+      document.getElementById(`cart-controls-${id}`).style.display = "flex";
+      updateCart(id, 1);
+    }
+
+    function updateCart(id, quantity) {
+      cart[id] = (cart[id] || 0) + quantity;
+      if (cart[id] <= 0) {
+        delete cart[id];
+        document.getElementById(`add-to-cart-${id}`).style.display = "block";
+        document.getElementById(`cart-controls-${id}`).style.display = "none";
+      } else {
+        document.getElementById(`item-count-${id}`).innerText = cart[id];
+      }
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const totalCount = Object.values(cart).reduce((sum, count) => sum + count, 0);
+      document.getElementById("cart-count").innerText = totalCount;
+    }
+
+    function filterItems() {
+      const query = document.getElementById("search-bar").value.toLowerCase();
+      const filteredItems = foodItems.filter(item => item.name.toLowerCase().includes(query));
+      renderFoodItems(filteredItems);
+    }
+
+    renderFoodItems(foodItems);
+  </script>
+</body>
+</html>

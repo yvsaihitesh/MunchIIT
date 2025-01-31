@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .profile-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s;
+    }
+
+    /* Header Section */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .coins {
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #ffc107;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .notifications {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* Profile Section */
+    .profile-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-picture {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-picture img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid #007bff;
+    }
+
+    .edit-picture {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    /* User Information */
+    .user-name {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+
+    .user-email {
+      font-size: 16px;
+      color: #666;
+    }
+
+    .edit-profile {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Order History Section */
+    .order-history {
+      margin-bottom: 30px;
+    }
+
+    .order-history h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .view-details {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Achievements Section */
+    .achievements {
+      margin-bottom: 30px;
+    }
+
+    .achievements h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .badges span {
+      display: inline-block;
+      margin-right: 10px;
+      background-color: #e7f3fe;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    /* Referral Section */
+    .referral {
+      margin-bottom: 30px;
+    }
+
+    .referral h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .referral a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    /* Footer Section */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dark-mode-toggle {
+      display: flex;
+      align-items: center;
+    }
+
+    .logout {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #333;
+      color: #f5f5f5;
+    }
+
+    .profile-container.dark-mode {
+      background-color: #444;
+    }
+
+    .header.dark-mode {
+      background-color: #555;
+    }
+
+    table.dark-mode th {
+      background-color: #666;
+    }
+
+    .edit-profile.dark-mode, .logout.dark-mode {
+      background-color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <!-- Header Section -->
+    <div class="header">
+      <div class="coins">🪙 100 Coins</div>
+      <div class="notifications">🔔</div>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <div class="profile-picture">
+        <img src="https://via.placeholder.com/150" alt="Profile Picture">
+        <button class="edit-picture">✏️</button>
+      </div>
+      <h1 class="user-name">John Doe</h1>
+      <p class="user-email">johndoe@example.com</p>
+      <button class="edit-profile">Edit Profile</button>
+    </div>
+
+    <!-- Order History Section -->
+    <div class="order-history">
+      <h2>Order History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Price</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2023-10-01</td>
+            <td>T-Shirt, Jeans</td>
+            <td>$50.00</td>
+            <td><button class="view-details">View Details</button></td>
+          </tr>
+          <tr>
+            <td>2023-09-25</td>
+            <td>Sneakers</td>
+            <td>$80.00</td>
+            <td><button class="view-details">View Details</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Achievements Section -->
+    <div class="achievements">
+      <h2>Achievements</h2>
+      <div class="badges">
+        <span>🏆 First Order</span>
+        <span>🏆 Loyal Customer</span>
+      </div>
+    </div>
+
+    <!-- Referral Section -->
+    <div class="referral">
+      <h2>Refer a Friend</h2>
+      <p>🔗 Share your referral link: <a href="#">Copy Link</a></p>
+      <p>🎁 Rewards Earned: $10.00</p>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+      <label class="dark-mode-toggle">
+        <input type="checkbox" id="dark-mode-toggle">
+        Dark Mode
+      </label>
+      <button class="logout">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('dark-mode-toggle').addEventListener('change', function() {
+      document.body.classList.toggle('dark-mode');
+      document.querySelector('.profile-container').classList.toggle('dark-mode');
+      document.querySelector('.header').classList.toggle('dark-mode');
+      const tables = document.querySelectorAll('table');
+      tables.forEach(table => {
+        table.classList.toggle('dark-mode');
+      });
+    });
+  </script>
+</body>
+</html>

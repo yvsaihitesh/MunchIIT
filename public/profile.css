@@ -1,0 +1,14 @@
+body{
+    margin: 1vh;
+}
+.container {
+    margin-left: 0;
+}
+.profilePicture {
+    border-radius: 50%;
+    text-align: center;
+    background-color: grey;
+}
+.profile-section {
+    box-shadow: 0 0 10px rgba(148, 17, 148, 0.8);
+}

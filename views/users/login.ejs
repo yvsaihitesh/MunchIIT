@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>projectC</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/stylesheets/app.css"> -->
+</head>
+<body class="d-flex flex-column vh-100 bg-light">
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1jTKpI.img?w=1860&h=1200&m=4&q=74"
+                        alt="" class="card-img-top" />
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/login" method="POST" class="validated-form" novalidate>
+                            <div class="form-group">
+                                <label class="small mb-1" for="username">Username</label>
+                                <input class="form-control py-4" type="text" id="username" name="username" autofocus required>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="password">Password</label>
+                                <input class="form-control py-4" type="password" id="password" name="password" required>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <button class="btn btn-primary btn-block">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="small"><a href="/register">Need an account? Sign up!</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+<!-- <body class="d-flex flex-column vh-100">
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Login</h5>
+                        <form action="/login" method="POST" class="validated-form" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" autofocus required>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" required>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <button class="btn btn-success btn-block">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src='/javascripts/validateForms.js'></script>
+</body>
+</html> -->

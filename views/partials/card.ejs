@@ -1,0 +1,35 @@
+     <% items.forEach(item => { %>
+      <div class="col CardBox">
+          <div class="card h-100 shadow-sm">
+              <div class="Card">
+                  <div class="front">
+                      <img src="<%= item.image %>" class="card-img-top" alt="problem" onclick="window.location.href='<%= item._id %>'">
+                  </div>
+                  <div class="back">
+                      <p>Ingredients
+                      <ul>
+                          <% for (let i = 0; i < item.ingredients.length; i++) { %>
+                              <li><%= item.ingredients[i] %></li>
+                          <% } %>
+                      </ul>
+                      </p>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <h5 class="card-title"><%= item.ItemName %></h5>
+                  <p class="card-text">Price: &#8377;<%= item.Price * 15 %></p>
+                  <div class="d-flex justify-content-between">
+                      <form id="cartForm-<%= item._id %>" action="/cart/add/<%= item._id %>" method="POST">
+                          <button class="addCart" type="submit">
+                            <input type="number" name="quantity" class="itemCount" id="quantity-<%= item._id %>">  
+                            <i class="fas fa-cart-plus"></i><span class="centerSpan">Add to Cart</span>
+                          </button>
+                      </form>
+                      <button class="reviews" onclick="window.location.href='<%= item._id %>'">
+                          <i class="fas fa-star"></i><span class="centerSpan">Reviews</span>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+    <% }) %>

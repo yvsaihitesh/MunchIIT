@@ -1,0 +1,126 @@
+.navigationBar {
+    background-color: rgb(148, 17, 148);
+}
+.navbarButtons {
+    display:inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-link {
+    margin: 0 1.5vw;
+}
+.reviews, .addCart, select{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5vh;
+}
+.itemCount {
+  width: 2vw;
+  
+}
+#cartBadge, #chatBadge{
+    display: none;
+}
+.cart , .home {
+    margin-top: 2px;
+}
+.login{
+    background-color: rgb(148, 17, 148);
+    color: white;
+    border-radius: 5px;
+    border: 2px solid white;
+    padding: 3px;
+}
+.fas {
+    font-size: 25px;
+    color: white;
+}
+.fa-utensils {
+    color: black;
+}
+.fa-tag {
+    color: gold;
+}
+
+.bi{
+    font-size: 20px;
+}
+.search {
+    background-color: rgb(148, 17, 148);
+}
+input[type="text"], input[type="text"]::placeholder {
+    color:rgb(148, 17, 148);
+}
+input[type="text"]:focus {
+    outline: none;
+    border-color: rgb(148, 17, 148);
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(148, 17, 148, 0.8);
+}
+img {
+    height: 300px;
+}
+.addCart {
+    background-color: rgb(148, 17, 148);
+    color: white;
+}
+.reviews{
+    background-color: gold;
+}
+button {
+    
+    color: white;
+    border: none;
+    padding: 1vh 2vh;
+    border-radius: 1vh;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+button:hover{
+    cursor: pointer;
+    scale: 1.15;
+    opacity: 0.7;
+}
+
+.countDisplay {
+    margin: 0 2.5vw;
+}
+
+ul {
+    text-align: left 
+}
+
+.Card {
+    overflow: hidden;
+    position: relative;
+}
+
+.Card .front {
+    position: relative;
+}
+
+.Card .front img {
+   width: 100%;
+    display: block;
+}
+.Card .back {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: rgba(232, 239, 241,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0; 
+    
+    transition: bottom 1.2s ease, opacity 1s ease;
+}
+
+.Card:hover .back {
+    opacity: 1;
+    bottom: 0;
+}
