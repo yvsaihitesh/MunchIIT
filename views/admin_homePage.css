@@ -1,0 +1,17 @@
+.option {
+	border: 0.5vh solid black;
+	border-radius: 2vh;
+	box-shadow: 0.75vh 0.75vh black;
+	padding: 2vh;
+	margin: 2vh;
+}
+
+.option:hover {
+	background-color: orange;
+	box-shadow: 0.75vh 0.75vh grey;
+}
+
+body {
+    background-color: black;
+}
+
