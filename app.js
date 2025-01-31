@@ -14,6 +14,7 @@ const User = require('./models/user');
 const Item = require('./models/foodItem');
 const Review = require('./models/reviews');
 const Cart = require('./models/cart');
+const Order = require('./models/order')
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -76,6 +77,22 @@ app.get('/register', (req, res) => {
     res.render('users/register');
 });
 
+app.get('/orders', async (req, res) => {
+    if (!req.user) {
+        req.flash('error', 'You must be logged in to view your orders.');
+        return res.redirect('/login');
+    }
+
+    try {
+        const orders = await Order.find({ user: req.user._id }).populate('items.item');
+        res.render('orders', { orders });
+    } catch (error) {
+        console.error('Error retrieving orders:', error);
+        req.flash('error', 'Failed to retrieve orders.');
+        res.redirect('/');
+    }
+});
+
 app.get('/cart', async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your cart.');
@@ -130,23 +147,6 @@ app.post('/login', passport.authenticate('local', { failureFlash: true, failureR
     console.log("Logged in user ID:", req.user._id); 
     res.redirect('/');
 });
-
-// app.get('/:id', async (req, res) => {
-//     const id = req.params.id;
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//         return res.status(400).send('Invalid ID');
-//     }
-//     const item = await Item.findById(id).populate({
-//         path: 'reviews',
-//         populate: {
-//             path: 'author'
-//         }
-//     });
-//     if (!item) {
-//         return res.status(404).send("Item not found");
-//     }
-//     res.render('item', { item }); 
-// });
 
 app.get('/:id', async (req, res) => {
     const id = req.params.id;
@@ -235,7 +235,7 @@ app.post('/cart/add/:id', async (req, res) => {
 
         await cart.save();
         req.flash('success', 'Item added to cart!');
-        res.redirect('/');
+        res.redirect('/cart');
     } catch (error) {
         console.error('Error adding item to cart:', error);
         req.flash('error', 'Failed to add item to cart.');
@@ -302,6 +302,48 @@ app.delete('/cart/delete/:id', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to delete item' });
+    }
+});
+
+app.post('/cart/place-order', async (req, res) => {
+    if (!req.user) {
+        req.flash('error', 'You must be logged in to place an order.');
+        return res.redirect('/login');
+    }
+
+    const userId = req.user._id;
+
+    try {
+        const cart = await Cart.findOne({ user: userId }).populate('items.item');
+        if (!cart || cart.items.length === 0) {
+            req.flash('error', 'Your cart is empty.');
+            return res.redirect('/cart');
+        }
+
+        // Calculate total amount
+        let totalAmount = 0;
+        cart.items.forEach(food => {
+            totalAmount += food.item.Price * food.quantity;
+        });
+
+        // Create a new order
+        const order = new Order({
+            user: userId, // Associate the order with the logged-in user
+            items: cart.items,
+            totalAmount: totalAmount
+        });
+
+        await order.save();
+
+        // Clear the cart
+        await Cart.findOneAndDelete({ user: userId });
+
+        req.flash('success', 'Order placed successfully!');
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error placing order:', error);
+        req.flash('error', 'Failed to place order.');
+        res.redirect('/cart');
     }
 });
 
