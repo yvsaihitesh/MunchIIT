@@ -8,11 +8,12 @@
 <body>
     <h1>Your Cart</h1>
     <% if (cart && cart.items.length > 0) { %>
-        <ul>
+        <ol>
             <% cart.items.forEach(food => { %>
+                    <img src="<%= food.item.image %>" class="card-img-top" alt="problem">
                 <li>
                     <h2><%= food.item.ItemName %></h2>
-                    <p>Price: &#8377;<%= food.item.Price %></p>
+                    <p>Price: &#8377;<%= food.item.Price*15 %></p>
                     <p>Quantity: 
                         <input type="number" id="quantity-<%= food.item._id %>" value="<%= food.quantity %>" min="1" />
                     </p>
@@ -20,7 +21,7 @@
                     <button onclick="deleteItem('<%= food.item._id %>')">Delete</button>
                 </li>
             <% }) %>
-        </ul>
+        </ol>
     <% } else { %>
         <p>Your cart is empty.</p>
     <% } %>
