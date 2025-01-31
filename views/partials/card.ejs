@@ -18,16 +18,15 @@
               <div class="card-body">
                   <h5 class="card-title"><%= item.ItemName %></h5>
                   <p class="card-text">Price: &#8377;<%= item.Price * 15 %></p>
-                  <div class="d-flex justify-content-between">
-                      <form id="cartForm-<%= item._id %>" action="/cart/add/<%= item._id %>" method="POST">
-                          <button class="addCart" type="submit">
-                            <select name="quantity" id="quantity-<%= item._id %>">
-                                <% for (let i = 1; i <= 10; i++) { %>
-                                    <option value="<%= i %>"><%= i %></option>
-                                <% } %>
-                            </select>
-    
-                            <i class="fas fa-cart-plus"></i><span class="centerSpan">Add to Cart</span>
+                  <div class="cartFlex">
+                      <form class="cartFlex" id="cartForm-<%= item._id %>" action="/cart/add/<%= item._id %>" method="POST">
+                        <select class="cartSelect" name="quantity" id="quantity-<%= item._id %>">
+                            <% for (let i = 1; i <= 10; i++) { %>
+                                <option value="<%= i %>"><%= i %></option>
+                            <% } %>
+                        </select>
+                        <button class="addCart" type="submit">
+                         <i class="fas fa-cart-plus"></i><span class="centerSpan">Add Cart</span>
                           </button>
                       </form>
                       <button class="reviews" onclick="window.location.href='<%= item._id %>'">

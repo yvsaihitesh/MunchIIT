@@ -64,6 +64,20 @@ img {
 .addCart {
     background-color: rgb(148, 17, 148);
     color: white;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0 ;
+}
+.cartSelect {
+    border-top-left-radius: 1vh;
+    border-bottom-left-radius: 1vh ;
+    background-color: rgb(148, 17, 148);
+    color: white;
+    padding: 3px;
+}
+.cartFlex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .reviews{
     background-color: gold;
