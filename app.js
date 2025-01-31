@@ -143,6 +143,20 @@ app.get('/chat', (req, res) => {
     res.render('chat');
 });
 
+app.get('/admin', (req, res) => {
+    res.render('admin_homePage');
+});
+
+app.get('/admin_menuPage', async (req, res) => {
+    try {
+        const items = await Item.find({});
+        res.render('admin_menuPage', { items }); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
     console.log("Logged in user ID:", req.user._id); 
     res.redirect('/');
