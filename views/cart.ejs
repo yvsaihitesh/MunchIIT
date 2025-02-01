@@ -19,31 +19,35 @@
             <i class="bi bi-arrow-left"></i> Continue Shopping
         </a>
     </div>
-    <div class="container py-5">
+    <div class="container ">
         <% if (cart && cart.items.length > 0) { %>
             <div class="card mb-4">
                 <div class="card-body">
                     <% let totalAmount = 0; %>
                     <% cart.items.forEach(food => { %>
-                        <div class="row g-3 align-items-center mb-4 cart-item">
+                        <div class="row g-3 align-items-center mb-4">
                             <!-- Product Image -->
-                            <div class="col-3 col-md-2">
+                            <div class="col-4 col-md-2">
                                 <img src="<%= food.item.image %>" 
-                                     class="cart-item-image img-fluid rounded" 
+                                     class="cart-item-image img-fluid" 
                                      alt="<%= food.item.ItemName %>">
                             </div>
                             
                             <!-- Product Info -->
-                            <div class="col-9 col-md-4">
-                                <h3 class="h6 mb-1"><%= food.item.ItemName %></h3>
-                                <p class="text-muted mb-1">&#8377;<%= food.item.Price * 15 %> per item</p>
+                            <div class="col-4 col-md-4">
+                                <h3 class="h5 mb-1"><%= food.item.ItemName %></h3>
+                                <p class="text-muted mb-0">&#8377;<%= food.item.Price * 15 %> per item</p>
+                            </div>
+                            
+                            <!-- Quantity Controls -->
+                            <div class="col-4 col-md-3">
                                 <div class="input-group">
                                     <input type="number" 
                                            id="quantity-<%= food.item._id %>"
-                                           class="form-control form-control-sm quantity-input"
+                                           class="form-control quantity-input"
                                            value="<%= food.quantity %>" 
                                            min="1">
-                                    <button class="btn btn-outline-secondary btn-sm" 
+                                    <button class="btn btn-outline-secondary" 
                                             onclick="updateQuantity('<%= food.item._id %>', '<%= food.quantity %>')">
                                         <i class="bi bi-arrow-clockwise"></i>
                                     </button>
@@ -51,18 +55,16 @@
                             </div>
                             
                             <!-- Price and Actions -->
-                            <div class="col-6 col-md-3 mt-2">
-                                <button class="btn btn-danger btn-sm w-100" 
+                            <div class="col-12 col-md-3 text-end removeItem">
+                                <button class="btn btn-danger btn-sm" 
                                         onclick="deleteItem('<%= food.item._id %>')">
                                     <i class="bi bi-trash"></i> Remove
                                 </button>
-                            </div>
-                            <div class="col-6 col-md-3 text-end mt-2">
-                                <p class="fw-bold m-0">
+                                <p class="mb-2 fw-bold">
                                     &#8377;<%= (food.item.Price * 15 * food.quantity).toFixed(1) %>
                                 </p>
                             </div>
-
+                            
                             <% totalAmount += food.item.Price * 15 * food.quantity; %>
                         </div>
                     <% }) %>

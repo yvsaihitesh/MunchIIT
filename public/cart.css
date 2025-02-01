@@ -11,6 +11,7 @@
 .container {
     width: 45vw;
     margin-right: 5vh;
+    padding-top: 1vh;
 }
 .continueShopping {
     border: 2px solid purple;
@@ -31,10 +32,17 @@
 @media (max-width: 1000px) {
     .container {
         width: auto;
+        margin-right: 1vh;
     }
     .header {
         display: flex;
         flex-direction: column;
     }
-  
+    .removeItem {
+        display: flex;
+        justify-content: space-between;
+    }
+    .continueShopping {
+        margin-right: 1vh;
+    }
   }
