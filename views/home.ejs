@@ -15,16 +15,64 @@
 <body class="bg-light">
 
   <!-- Navbar -->
+  
   <%- include('partials/navbar')%>
-
-  <!-- Sign-Up Button -->
-
+   <a href="#anchorCards">
+   <div id="carouselExample" class="carousel slide mt-4 pt-5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="breakfast.jpg" class="d-block w-100 itemslide" alt="breakfast">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Breakfast</h5>
+                    <p>Click on this to get breakfast items.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="lunch.jpg" class="d-block w-100 itemslide" alt="lunch">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Lunch</h5>
+                    <p>Click on this to get lunch items.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="snacks.jpg" class="d-block w-100 itemslide" alt="snacks">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Snacks</h5>
+                    <p>Click on this to get snacks items.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+              <img src="bevarages.jpg" class="d-block w-100 itemslide" alt="beverages">
+              <div class="carousel-caption d-none d-md-block">
+                  <h5>Beverages</h5>
+                  <p>Click on this to get beverages items.</p>
+              </div>
+          </div>
+          <div class="carousel-item">
+            <img src="dinner.jpg" class="d-block w-100 itemslide" alt="dinner">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Dinner</h5>
+                <p>Click on this to get dinner items.</p>
+            </div>
+        </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+   </a>
 
 
 
   <!-- Content -->
-  <div class="container mt-5 pt-5">
+  <div class="container mt-1 pt-1">
 
+    <div class="filterbar">
     <!-- Search Bar -->
     <div class="input-group my-4">
       <input type="text" class="form-control" id="search" placeholder=" Search for items..." aria-label="Search">
@@ -33,9 +81,14 @@
         
       </button> -->
     </div>
-
+    <select class="filters">
+      <option value="Filter">Filter</option>
+      <option value="Veg">Veg</option>
+      <option value="Non Veg">Non-Veg</option>
+    </select>
+    </div>
     <!-- Menu Items -->
-    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
+    <div id="anchorCards" class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
     <%- include('partials/card')%>
     
     </div>
