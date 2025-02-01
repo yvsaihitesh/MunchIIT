@@ -1,18 +1,26 @@
-<nav class="navbar">
+<!-- <nav class="navbar">
     <div class="navigationBar fixed-top d-flex justify-content-between shadow-sm p-2">
         <h3 class="fw-bold text-light">Admin</h3>
         <div class="navbarButtons flex-row">
-              <!-- House door fill in Bootstrap -->
               <a href="/admin"><i class="fas bi-house-door-fill" style="padding: 0 3vh; size: 2vh;"></i></a>
-              <!-- Card-List in Bootstrap -->
               <a href="/admin_menuPage"><i class="fas fa-solid bi-card-list"></i></a>
-              <!-- Currency rupee in Bootstrap -->
+
               <a href="/admin_historyPage"></a><i class="fas fa-solid bi-currency-rupee" style="padding: 0 2vh;"></i></a>
               <a class="nav-link profile" href="/profile"><i class="fas fa-user"></i></a>
         </div>
     </div>
-    </nav>
-
+    </nav> -->
+    <nav class="navbar">
+        <div class="navigationBar fixed-top d-flex justify-content-between shadow-sm ">
+          <img class="nav-img" src="nav-bar.jpg">
+          <h4 class="fw-bold text-light">MunchIIT</h4>
+            <div class="navbarButtons flex-row"> 
+                  <a class="nav-link orders" href="/admin"><i class="fas fa-box"></i><span class="nav-text">Orders</span> </a>
+                  <a class="nav-link  modify position-relative" href="/adminModify"><i class="fas fa-pencil-alt"></i><span class="nav-text">Update menu</span></a>
+                  <a class="nav-link history" href="/history"><i class="fas fa-history"></i>History</a> 
+            </div>
+        </div>
+        </nav>
 
 <!-- Chat Option -->
 <!-- <a class="nav-link chat position-relative" href="/chat"><i class="fas fa-comment-dots"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="chatBadge">
