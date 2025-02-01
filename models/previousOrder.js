@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const previousOrderSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User ',
+        ref: 'User',
         required: true
     },
     items: [{

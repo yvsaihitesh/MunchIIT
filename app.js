@@ -10,6 +10,7 @@ const favicon = require('serve-favicon');
 const { isLoggedIn , isReviewAuthor } = require('./middleware')
 const methodOverride = require('method-override');
 const cors = require('cors');
+const { zonedTimeToUtc } = require('date-fns-tz');
 
 const User = require('./models/user');
 const Item = require('./models/foodItem');
@@ -136,37 +137,6 @@ app.post('/register', async (req, res, next) => {
     }
 });
 
-// app.post('/admin/addItem', async (req, res) => {
-//     try {
-//         const { ItemName, image, Price, ingredients, Category, status } = req.body;
-//         console.log(req.body)
-//         // Validate required fields
-//         if (!ItemName || !image || !Price || !ingredients || !Category) {
-//             return res.status(400).json({ message: 'All fields are required' });
-//         }
-
-//         // Parse ingredients if provided as a string
-//         const ingredientsArray = Array.isArray(ingredients)
-//             ? ingredients
-//             : ingredients.split(',').map(ing => ing.trim());
-
-//         const newItem = new Item({
-//             ItemName,
-//             image,
-//             Price: parseFloat(Price),
-//             ingredients: ingredientsArray,
-//             Category,
-//             status: status || 'In Stock',
-//         });
-
-//         await newItem.save();
-//         res.status(200).json({ message: 'Item added successfully', item: newItem });
-//     } catch (error) {
-//         console.error('Error adding new item:', error);
-//         res.status(500).json({ message: 'Failed to add item', error });
-//     }
-// });
-
 app.post('/admin/addItem', async (req, res) => {
     try {
         const { ItemName, Price, ingredients, Category, image, status } = req.body;
@@ -221,6 +191,45 @@ app.get('/login', (req, res) => {
 
 app.get('/profile', (req, res) => {
     res.render('profile');
+});
+
+app.get('/admin/orderHistory', async (req, res) => {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+        req.flash('error', 'Please provide both start and end dates.');
+        return res.redirect('/admin');
+    }
+
+    console.log('Start Date:', startDate);
+    console.log('End Date:', endDate);
+
+    try {
+        // Convert to UTC
+        const start = new Date(startDate + 'T00:00:00Z'); // Start of the day in UTC
+        const end = new Date(endDate + 'T23:59:59Z'); // End of the day in UTC
+
+        console.log('Parsed Start Date:', start);
+        console.log('Parsed End Date:', end);
+
+        // Query the PreviousOrder collection
+        const previousOrders = await PreviousOrder.find({
+            createdAt: {
+                $gte: start,
+                $lte: end
+            }
+        }).populate('user', 'username email');
+
+        console.log('Previous Orders found:', previousOrders); // Log the orders found
+
+        const totalAmount = previousOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+
+        res.render('orderHistory', { previousOrders, totalAmount, startDate, endDate });
+    } catch (error) {
+        console.error('Error retrieving order history:', error);
+        req.flash('error', 'Failed to retrieve order history.');
+        res.redirect('/admin');
+    }
 });
 
 app.get('/admin', async (req, res) => {
