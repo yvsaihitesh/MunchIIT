@@ -261,24 +261,6 @@ app.get('/adminModify', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.post('/adminModify/:id', async (req, res) => {
-    const { id } = req.params;
-    const { status, Price } = req.body; 
-    try {
-        // Update both status and price
-        await Item.findByIdAndUpdate(id, { status: status, Price: parseFloat(Price) });
-        req.flash('success', 'Item status and price updated successfully.');
-        res.redirect('/adminModify');
-    } catch (error) {
-        console.error('Error updating item status and price:', error);
-        req.flash('error', 'Failed to update item status and price.');
-        res.redirect('/adminModify');
-    }
-});
-
-=======
->>>>>>> 4ad94640345c1ff43a59013fe8a191303f6540ee
 app.get('/previous-orders', async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your previous orders.');
