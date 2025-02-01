@@ -207,33 +207,18 @@ app.get('/profile', (req, res) => {
     res.render('profile');
 });
 
-app.get('/admin/orderHistory', async (req, res) => {
-    const { startDate, endDate } = req.query;
-
-    if (!startDate || !endDate) {
-        req.flash('error', 'Please provide both start and end dates.');
-        return res.redirect('/admin');
-    }
+app.get('/orderHistory', async (req, res) => {
     try {
-        // Convert to UTC
-        const start = new Date(startDate + 'T00:00:00Z'); // Start of the day in UTC
-        const end = new Date(endDate + 'T23:59:59Z'); // End of the day in UTC
-        const previousOrders = await PreviousOrder.find({
-            createdAt: {
-                $gte: start,
-                $lte: end
-            }
-        }).populate('user', 'username email');
+        // Fetch all previous orders and populate user and item details
+        const previousOrders = await PreviousOrder.find({})
+            .populate('user', 'username email') // Populate user details
+            .populate('items.item', 'ItemName image Price'); // Populate item details
 
-        console.log('Previous Orders found:', previousOrders); // Log the orders found
-
-        const totalAmount = previousOrders.reduce((sum, order) => sum + order.totalAmount, 0);
-
-        res.render('orderHistory', { previousOrders, totalAmount, startDate, endDate });
+        // Render the orderHistory.ejs template with the fetched data
+        res.render('orderHistory', { previousOrders });
     } catch (error) {
-        console.error('Error retrieving order history:', error);
-        req.flash('error', 'Failed to retrieve order history.');
-        res.redirect('/admin');
+        console.error('Error fetching previous orders:', error);
+        res.status(500).send('Failed to fetch previous orders.');
     }
 });
 

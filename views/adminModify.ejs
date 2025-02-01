@@ -10,17 +10,28 @@
     <link href="/admin.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
+<style>
+    .centerAligning{
+        margin: 0 auto;
+    }
+    .table {
+            border: 2px solid #000; /* Table border */
+        }
+        .table th, .table td {
+            border: 2px solid #000; /* Cell borders */
+        }
+</style>
+<%- include('admin/admin_navbar') %>
 <body class="bg-light">
     <div class="d-flex justify-content-between align-items-center mb-2 mt-2 me-4 header">
-        <h1 class="ms-2 mt-1"><i class="bi bi-pencil-square"></i>Modify Items</h1>
         <a href="/" class="continueShopping">
             <i class="bi bi-arrow-left"></i> Home
         </a>
     </div>
+    <div class="centerAligning">
     <div class="container">
         <!-- Scroll to Form Button -->
-        <a href="#addItemForm" class="btn btn-secondary mb-3">Add New Item</a>
+        <a href="#addItemForm" class="btn btn-secondary mb-3 addNewItem">Add New Item</a>
 
         <!-- Items Table -->
         <div class="table-responsive">
@@ -114,6 +125,7 @@
             <button type="submit" class="btn btn-primary itemAddition">Add Item</button>
         </form>
     </div>
+</div>
 </div>
 
     <script>
