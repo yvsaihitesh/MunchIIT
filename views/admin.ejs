@@ -8,6 +8,18 @@
 </head>
 <body>
     <div class="container mt-4">
+      <h2>Order History</h2>
+<form action="/admin/orderHistory" method="GET">
+    <div class="mb-3">
+        <label for="startDate" class="form-label">Start Date</label>
+        <input type="date" class="form-control" id="startDate" name="startDate" required>
+    </div>
+    <div class="mb-3">
+        <label for="endDate" class="form-label">End Date</label>
+        <input type="date" class="form-control" id="endDate" name="endDate" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Get Order History</button>
+</form>
         <h1>Admin Orders</h1>
         <table class="table table-bordered">
             <thead>
