@@ -1,0 +1,58 @@
+.navigationBar {
+    height: 75px;
+    width: 100%;
+    background-color: white;
+}
+.navbarButtons {
+    display:inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: purple;
+}
+.nav-img{
+    height: 75px;
+    width: 40vw;
+    margin: 0;
+    position: absolute;
+    z-index: -1;
+}
+.nav-link {
+    margin: 0 1.5vw;
+}
+.c , .home {
+    margin-top: 2px;
+}
+.navbar h4{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 3.3vw;
+}
+
+.navigationBar a{
+    font-size: 17px;
+}
+
+.navigationBar a:hover{
+    transform: scale(1.1);
+}
+
+.navbarButtons{
+    padding-right: 15px;
+}
+.navbar .fas{
+    color: purple;
+    margin: 3px;
+}
+.fa-utensils {
+    color: black;
+}
+.fa-tag {
+    color: gold;
+}
+.fas {
+    font-size: 18px;
+    color: white;
+    padding-right: 7px;
+}
