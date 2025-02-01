@@ -6,7 +6,7 @@
       "ingredients": ["Bread", "Cheese", "Butter"],
       "Category": "Breakfast",
       "type": "Veg",
-      "status": "In Stock",
+      "status": "In Stock"
     },
     {
       "ItemName": "Veg Burger",
