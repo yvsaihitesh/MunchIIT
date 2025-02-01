@@ -4,33 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Orders</title>
+
+    <link href="./bootstrap.css" rel="stylesheet">
+    <link href="./home.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
 </head>
 <body>
+    <%- include('partials/navbar')%>
     <h1>Your Orders</h1>
-    <a href="/">continueshopping</a>
+
+
+
     <% if (orders && orders.length > 0) { %>
-        <ul>
-            <% orders.forEach(order => { %>
-                <li>
-                    <h2>Order ID: <%= order._id %></h2>
-                    <p>Total Amount: &#8377;<%= order.totalAmount %></p>
-                    <p>Items:</p>
-                    <ul>
-                        <% order.items.forEach(item => { %>
-                            <li>
-                                <h3><%= item.item.ItemName %></h3>
-                                <p>Quantity: <%= item.quantity %></p>
-                            </li>
-                        <% }) %>
-                    </ul>
-                    <p>Order Date: <%= order.createdAt.toLocaleString() %></p>
-                    <p><%= order.status %></p>
-                </li>
-            <% }) %>
-        </ul>
+        <div class="container mt-4">
+            <% for (let i = orders.length-1; i >= 0 ; i--) { %>
+                <div class="card mb-4">
+                    <div class="card-header text-white" style="background-color: #800080;">
+                        <h2>Order ID: <%= orders[i]._id.toString().slice(-3) %></h2>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Total Amount: &#8377;</strong><%= orders[i].totalAmount*15 %></p>
+                        <p><strong>Items:</strong></p>
+                        <ul>
+                            <% for (let j = 0; j < orders[i].items.length; j++) { %>
+                                <li>
+                                    <h6><%= orders[i].items[j].item.ItemName %> (x <%= orders[i].items[j].quantity %>)</h6>
+                                </li>
+                            <% } %>
+                        </ul>
+                        <p><strong>Order Date:</strong> <%= new Date(orders[i].createdAt).toLocaleString('en-US', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: '2-digit', 
+                            hour: '2-digit', 
+                            minute: '2-digit', 
+                            second: '2-digit', 
+                            hour12: false 
+                        }).replace(/,/, '') %></p>
+                        <p style="float: right; background-color: greenyellow; padding: 0.75%; border-radius: 1.25vh;"><strong>Status:</strong> <%= orders[i].status %></p>
+                    </div>
+                </div>
+            <% } %>
+        </div>
     <% } else { %>
-        <p>You have no orders yet.</p>
+        <div class='continue' style="text-decoration: none; color: white;"><h5>You have no orders yet.</h5></div>
     <% } %>
-    <a href="/">Continue Shopping</a>
+    
+
+    
+
+
+    <div class='continue'><a style="text-decoration: none; color: white;" href="/"><h5>CONTINUE SHOPPING</h5></a></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./home.js"></script>
 </body>
 </html>
+
+<style>
+    .continue {
+        background-color: #800080;
+        padding: 0.75%;
+        border-radius: 1.25vh;
+        margin: 5%;
+        text-align: center;
+    }

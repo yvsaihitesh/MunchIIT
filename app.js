@@ -222,7 +222,10 @@ app.get('/profile', async (req, res) => {
 
 app.get('/admin/orderHistory', async (req, res) => {
     const { startDate, endDate } = req.query;
-
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     if (!startDate || !endDate) {
         req.flash('error', 'Please provide both start and end dates.');
         return res.redirect('/admin');
@@ -251,11 +254,14 @@ app.get('/admin/orderHistory', async (req, res) => {
 });
 
 app.get('/admin', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     try {
         const orders = await Order.find({})
             .populate('user', 'username email')
             .populate('items.item', 'ItemName image Price ingredients Category'); 
-        console.log(orders)
         res.render('admin', { orders });
     } catch (error) {
         console.error('Error fetching orders:', error);
@@ -264,6 +270,10 @@ app.get('/admin', async (req, res) => {
 });
 
 app.get('/adminModify', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     try {
         const items = await Item.find({});
         res.render('adminModify', { items });
