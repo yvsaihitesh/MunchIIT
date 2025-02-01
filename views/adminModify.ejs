@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Modify Items</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>Admin Modify Items</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (items && items.length> 0) { %>
+                    <% items.forEach(item=> { %>
+                        <tr>
+                            <td>
+                                <%= item.ItemName %>
+                            </td>
+                            <td>₹<%= item.Price %>
+                            </td>
+                            <td>
+                                <form action="/adminModify/<%= item._id %>" method="POST">
+                                    <select name="status" onchange="this.form.submit()">
+                                        <option value="In Stock" <%=item.status==='In Stock' ? 'selected' : '' %>>In
+                                            Stock</option>
+                                        <option value="Out of Stock" <%=item.status==='Out of Stock' ? 'selected' : ''
+                                            %>>Out of Stock</option>
+                                    </select>
+                                </form>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" onclick="deleteItem('<%= item._id %>')">Delete</button>
+                            </td>
+                        </tr>
+                        <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4" class="text-center">No items found</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+
+        <!-- Add New Item Form -->
+        <h2>Add New Item</h2>
+        <form action="/admin/addItem" method="POST">
+            <div class="mb-3">
+                <label for="ItemName" class="form-label">Item Name</label>
+                <input type="text" class="form-control" id="ItemName" name="ItemName" required>
+            </div>
+            <div class="mb-3">
+                <label for="Price" class="form-label">Price (₹)</label>
+                <input type="number" class="form-control" id="Price" name="Price" required>
+            </div>
+            <div class="mb-3">
+                <label for="ingredients" class="form-label">Ingredients (comma-separated)</label>
+                <input type="text" class="form-control" id="ingredients" name="ingredients" required>
+            </div>
+            <div class="mb-3">
+                <label for="Category" class="form-label">Category</label>
+                <input type="text" class="form-control" id="Category" name="Category" required>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image URL</label>
+                <input type="text" class="form-control" id="image" name="image" required>
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="In Stock">In Stock</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
+    </div>
+
+    <script>
+        const addItemForm = document.getElementById('addItemForm');
+        addItemForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(addItemForm);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = key === 'ingredients' ? value.split(',').map(i => i.trim()) : value;
+            });
+
+            try {
+                const response = await fetch('/admin/addItem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Item added successfully!');
+                    location.reload();
+                } else {
+                    alert('Failed to add item.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the item.');
+            }
+        });
+
+        function deleteItem(itemId) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                fetch(`/admin/delete/${itemId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Item deleted successfully!');
+                            location.reload();
+                        } else {
+                            alert('Failed to delete item.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while trying to delete the item.');
+                    });
+            }
+        }
+
+    </script>
+</body>
+
+</html>
