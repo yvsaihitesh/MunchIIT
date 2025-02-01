@@ -274,7 +274,6 @@ app.get('/adminModify', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
 app.post('/adminModify/:id', async (req, res) => {
     const { id } = req.params;
     const { status, Price } = req.body; 
@@ -290,8 +289,6 @@ app.post('/adminModify/:id', async (req, res) => {
     }
 });
 
-=======
->>>>>>> 4ad94640345c1ff43a59013fe8a191303f6540ee
 app.get('/previous-orders', async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your previous orders.');
