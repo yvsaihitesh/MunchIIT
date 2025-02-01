@@ -27,7 +27,11 @@ const foodItemSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ]
+    ],
+    type:  {
+        type: String,
+        required: true
+    },
 });
 
 module.exports = mongoose.model('Item', foodItemSchema);
