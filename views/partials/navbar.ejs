@@ -1,17 +1,24 @@
 <nav class="navbar">
 <div class="navigationBar fixed-top d-flex justify-content-between shadow-sm">
   <img class="nav-img" src="nav-bar.jpg">
-  <h4 class="fw-bold text-light">MunchIIT</h4>
+  <h4 class="fw-bold text-light"><div class="iitBrand">Munch<span class="iit">IIT</span></div></h4>
     <div class="navbarButtons flex-row">
       <% if(!currentUser) { %>
         <a class="nav-link login" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>  
       <% } %>
-          <a class="nav-link orders" href="/orders"><i class="fas fa-box"></i><span class="nav-text">Orders</span> </a>
           <a class="nav-link home" href="/"><i class="fas fa-home"></i><span class="nav-text">Home</span> </a>
           <a class="nav-link cart position-relative" href="/cart"><i class="fas fa-shopping-cart"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartBadge">
             0</span><span class="nav-text">Cart</span></a>
-            <% if(currentUser) { %>
-              <a class="nav-link profile" href="/profile"><i class="fas fa-user"></i>User</a> 
+            <% if(currentUser) { %> 
+              <div class="dropdown drop1">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i><span class="userName">User</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/profile">Profile</a>
+                  <a class="dropdown-item" href="/logout">Log Out</a>
+                </div>
+                </div>
             <% } %>
     </div>
 </div>

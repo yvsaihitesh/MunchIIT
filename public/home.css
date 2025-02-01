@@ -166,6 +166,14 @@ ul {
     justify-content: center;
     padding-left: 3.3vw;
 }
+.iit {
+    color: #FAA519;
+}
+.iitBrand {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
 .navigationBar a{
     font-size: 17px;

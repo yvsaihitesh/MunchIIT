@@ -32,10 +32,23 @@
         .table th, .table td {
             border: 2px solid #000; 
         }
-    </style>
+    .adminout{
+      position: fixed;
+      bottom: 4%;
+      left: 88%;
+      border: 2vh;
+      border-radius: 1.25vh;
+      background-color: red;
+      color: white;
+      padding: 1vh;
+      box-shadow: 0 0 10px black;
+      z-index: 1;
+      }
+  </style>
 </head>
 <body>
     <%- include('admin/admin_navbar') %>
+
     <div class="container mt-4 pt-5">
         <div class="floating-card">
             <h1>Admin Orders</h1>

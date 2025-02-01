@@ -13,23 +13,6 @@
 <body>
     <%- include('partials/navbar')%>
 
-
-    <!-- Hitesh's Code -->
-
-    <!-- <div class="container ps-0 g-0 profile-container  pt-4">
-        <div>🪙 100 Coins</div>
-        <div class="profile-section mb-4 mt-3">
-            <div class="profile-picture">
-              <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profilePicture">
-              <button class="edit-picture btn btn-primary btn-sm">✏️</button>
-            </div>
-            <h1 class="user-name">John Doe</h1>
-            <p class="user-email text-muted">johndoe@example.com</p>
-            <button class="edit-profile btn btn-success">Edit Profile</button>
-        </div>
-    </div> -->
-
-
     <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
     <div class="container mt-5">
         <div class="card">
@@ -75,15 +58,14 @@
                   <div><strong>Total Amount:</strong> <%= previousOrders[i].totalAmount*15 %></div>
                 </div>
                 <% for (let j = 0; j < previousOrders[i].items.length; j++) { %>
-                  <div class="col-md-6 mt-3">
-                    <div class="card border-secondary">
-                      <div class="card-body">
-                        <div><strong>Item Name:</strong> <%= previousOrders[i].items[j].item.ItemName %></div>
-                        <div><strong>Quantity:</strong> <%= previousOrders[i].items[j].quantity %></div>
-                      </div>
-                    </div>
-                  </div>
-                <% } %>
+                  <li>
+                      <% if (previousOrders[i].items[j].item) { %>
+                          <h6><%= previousOrders[i].items[j].item.ItemName %> (x <%= previousOrders[i].items[j].quantity %>)</h6>
+                      <% } else { %>
+                          <h6>Item not found (x <%= previousOrders[i].items[j].quantity %>)</h6>
+                      <% } %>
+                  </li>
+              <% } %>
               </div>
             </div>
           </div>
@@ -105,40 +87,3 @@
     <script src="./home.js"></script>
 </body>
 </html>
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Page</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-  <div class="container mt-5">
-    <div class="card">
-      <div class="card-header">
-        <h2>Profile Page</h2>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-4">
-            <img src="profile-pic.jpg" class="img-fluid rounded-circle" alt="Profile Picture">
-          </div>
-          <div class="col-md-8">
-            <h3>John Doe</h3>
-            <p><strong>Email:</strong> johndoe@example.com</p>
-            <p><strong>Phone:</strong> +123 456 7890</p>
-            <p><strong>Bio:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lobortis feugiat arcu, at dignissim quam sagittis eget.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html> -->

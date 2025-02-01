@@ -10,6 +10,20 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+   <style>
+    .track{
+      position: fixed;
+      bottom: 4%;
+      left: 88%;
+      border: 2vh;
+      border-radius: 1.25vh;
+      background-color: #800080;
+      color: white;
+      padding: 1vh;
+      box-shadow: 0 0 10px black;
+      z-index: 1;
+  }
+  </style>
 </head>
 
 <body class="bg-light">
@@ -17,6 +31,7 @@
   <!-- Navbar -->
   
   <%- include('partials/navbar')%>
+  <div class="track"><a class="nav-link orders" href="/orders"><i class="fas fa-box"></i><span class="nav-text">Track Order</span></a></div>
    <a href="#anchorCards">
    <div id="carouselExample" class="carousel slide mt-4 pt-5" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -94,6 +109,10 @@
     </div>
 
   <!-- Bootstrap JS -->
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./home.js"></script>
 </body>

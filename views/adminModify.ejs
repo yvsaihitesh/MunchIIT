@@ -20,6 +20,10 @@
         .table th, .table td {
             border: 2px solid #000; /* Cell borders */
         }
+        .addNewItem{
+            background-color: purple;
+            color: white;
+        }
 </style>
 <%- include('admin/admin_navbar') %>
 <body class="bg-light">
@@ -31,7 +35,7 @@
     <div class="centerAligning">
     <div class="container">
         <!-- Scroll to Form Button -->
-        <a href="#addItemForm" class="btn btn-secondary mb-3 addNewItem">Add New Item</a>
+        <a href="#addItemForm" class="btn mb-3 addNewItem">Add New Item</a>
 
         <!-- Items Table -->
         <div class="table-responsive">

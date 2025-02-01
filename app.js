@@ -82,6 +82,37 @@ app.get('/', async (req, res) => {
 //     res.render('users/register');
 // });
 
+// app.get('/orders', async (req, res) => {
+//     if (!req.user) {
+//         req.flash('error', 'You must be logged in to view your orders.');
+//         return res.redirect('/login');
+//     }
+
+//     try {
+//         const orders = await Order.find({ user: req.user._id }).populate('items.item');
+//         res.render('orders', { orders });
+//     } catch (error) {
+//         console.error('Error retrieving orders:', error);
+//         req.flash('error', 'Failed to retrieve orders.');
+//         res.redirect('/');
+//     }
+// });
+// app.get('/orders', async (req, res) => {
+//     if (!req.user) {
+//         req.flash('error', 'You must be logged in to view your orders.');
+//         return res.redirect('/login');
+//     }
+
+//     try {
+//         const orders = await Order.find({ user: req.user._id }).populate('items.item');
+//         console.log(orders); // Log the orders to see their structure
+//         res.render('orders', { orders });
+//     } catch (error) {
+//         console.error('Error retrieving orders:', error);
+//         req.flash('error', 'Failed to retrieve orders.');
+//         res.redirect('/');
+//     }
+// });
 app.get('/orders', async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your orders.');
@@ -90,12 +121,22 @@ app.get('/orders', async (req, res) => {
 
     try {
         const orders = await Order.find({ user: req.user._id }).populate('items.item');
+        console.log(orders); // Log the orders to see their structure
         res.render('orders', { orders });
     } catch (error) {
         console.error('Error retrieving orders:', error);
         req.flash('error', 'Failed to retrieve orders.');
         res.redirect('/');
     }
+});
+app.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success', 'Logged out successfully');
+        res.redirect('/');
+    });
 });
 
 app.get('/cart', async (req, res) => {
@@ -128,6 +169,9 @@ app.post('/register', async (req, res, next) => {
         req.login(newUser , err => {
             if (err) return next(err);
             req.flash('success', 'Registration completed.');
+            if(newUser.username === 'AdminIITDH'){
+                return res.redirect('/admin')
+            }
             res.redirect('/');
         });
     } catch (e) {
