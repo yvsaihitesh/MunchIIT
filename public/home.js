@@ -2,8 +2,37 @@ const cart = {};
 const cards = document.getElementsByClassName("CardBox")
 const search = document.getElementById("search")
 const glassIcon = document.getElementById("glass");
-const navText = document.querySelectorAll("nav-text");
+const carouselItems = document.querySelectorAll(".itemslide");
 
+const filterSelect = document.querySelector(".filters");
+
+filterSelect.addEventListener("change", () => {
+    const selectedFilter = filterSelect.value.trim().toLowerCase();
+
+    Array.from(cards).forEach(card => {
+        const itemTypeElement = card.querySelector(".item-type");
+        if (!itemTypeElement) {
+            console.log("Missing .item-type in card");
+            return;
+        }
+
+        const itemType = itemTypeElement.textContent.trim().toLowerCase();
+        card.style.display = (selectedFilter === "filter" || itemType === selectedFilter) ? "block" : "none";
+    });
+});
+
+carouselItems.forEach(carouselitem => { 
+    carouselitem.addEventListener('click', () => {
+        Array.from(cards).forEach(card => {
+                card.style.display = 'block';
+        });
+        const categoryText = carouselitem.alt;
+        Array.from(cards).forEach(card => { 
+            const categoryname = card.querySelector(".category").innerText.toLowerCase().replace(/\s+/g, '');
+            card.style.display = categoryname.includes(categoryText) ? 'block' : 'none';
+        });
+    }); 
+});
 search.addEventListener('input', () => {
     Array.from(cards).forEach(card => {
         const itemName = card.querySelector(".card-title").innerText.toLowerCase().replace(/\s+/g, '');

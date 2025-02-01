@@ -67,6 +67,10 @@ const foodItemSchema = new Schema({
         type: String,
         enum: ['In Stock', 'Out of Stock'],
         default: 'In Stock' 
+    },
+    type: {
+        type : String,
+        default : 'Veg'
     }
 });
 

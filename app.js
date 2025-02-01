@@ -203,8 +203,21 @@ app.post('/adminModify/:id', async (req, res) => {
         res.redirect('/adminModify');
     }
 });
-app.get('/profile', (req, res) => {
-    res.render('profile');
+
+app.get('/profile', async (req, res) => {
+    if (!req.user) {
+        req.flash('error', 'You must be logged in to view your profile.');
+        return res.redirect('/login');
+    }
+    try {
+        const user = await User.findById(req.user._id);
+        const previousOrders = await PreviousOrder.find({ user: req.user._id }).populate('items.item');
+        res.render('profile', { user, previousOrders });
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        req.flash('error', 'Failed to fetch user data.');
+        res.redirect('/');
+    }
 });
 
 app.get('/orderHistory', async (req, res) => {
@@ -223,11 +236,14 @@ app.get('/orderHistory', async (req, res) => {
 });
 
 app.get('/admin', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     try {
         const orders = await Order.find({})
             .populate('user', 'username email')
             .populate('items.item', 'ItemName image Price ingredients Category'); 
-        console.log(orders)
         res.render('admin', { orders });
     } catch (error) {
         console.error('Error fetching orders:', error);
@@ -236,6 +252,10 @@ app.get('/admin', async (req, res) => {
 });
 
 app.get('/adminModify', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     try {
         const items = await Item.find({});
         res.render('adminModify', { items });
