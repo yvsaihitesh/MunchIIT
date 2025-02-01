@@ -32,13 +32,14 @@
                                     <img src="<%= item.image %>" alt="<%= item.ItemName %>" class="img-fluid" style="width: 100px; height: 100px; object-fit: cover;">
                                 </td>
                                 <td><%= item.ItemName %></td>
-                                <td>₹<%= item.Price %></td>
                                 <td>
-                                    <form action="/adminModify/<%= item._id %>" method="POST">
-                                        <select name="status" class="form-select" onchange="this.form.submit()">
+                                    <form action="/adminModify/<%= item._id %>" method="POST" class="d-flex">
+                                        <input type="number" name="Price" class="form-control me-2" value="<%= item.Price %>" required>
+                                        <select name="status" class="form-select me-2" onchange="this.form.submit()">
                                             <option value="In Stock" <%= item.status === 'In Stock' ? 'selected' : '' %>>In Stock</option>
                                             <option value="Out of Stock" <%= item.status === 'Out of Stock' ? 'selected' : '' %>>Out of Stock</option>
                                         </select>
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </form>
                                 </td>
                                 <td>

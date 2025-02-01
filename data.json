@@ -175,6 +175,78 @@
           "Category": "lunch",
           "type": "Non-Veg",
           "status": "In Stock"
-        }      
+        },
+        {
+          "ItemName": "Veg Pizza",
+          "image": "https://www.tasteofhome.com/wp-content/uploads/2018/04/Whole-Wheat-Veggie-Pizza_EXPS_HCKA19_12558_C10_13_5b.jpg",
+          "Price": 6,
+          "ingredients": ["Pizza Base", "Cheese", "Vegetables"],
+          "Category": "Main Course",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Chicken Biryani",
+          "image": "https://th.bing.com/th/id/OIP.CMV98hR5u-F4o_B_yPT7zgHaE8?rs=1&pid=ImgDetMain",
+          "Price": 7,
+          "ingredients": ["Rice", "Chicken", "Spices"],
+          "Category": "Main Course",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Paneer Butter Masala",
+          "image": "https://th.bing.com/th/id/OIP.CeSs_jd4E2sZbwICtF9J1QHaHa?w=1024&h=1024&rs=1&pid=ImgDetMain",
+          "Price": 6,
+          "ingredients": ["Paneer", "Butter", "Spices"],
+          "Category": "Main Course",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Veg Fried Rice",
+          "image": "https://th.bing.com/th/id/R.e30ad155cea3dc0f6fb6b39a7ee9578a?rik=t0Dxpq5TN2JNrQ&riu=http%3a%2f%2fvegecravings.com%2fwp-content%2fuploads%2f2016%2f03%2fveg-fried-rice-step-by-step-recipe.jpg&ehk=cktK%2fjRN4XXEuuUApLn%2b%2bO8HN9ARS9TGk5cxAK8a7jY%3d&risl=&pid=ImgRaw&r=0",
+          "Price": 5,
+          "ingredients": ["Rice", "Vegetables", "Soy Sauce"],
+          "Category": "Main Course",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Chocolate Cake",
+          "image": "https://charlotteslivelykitchen.com/wp-content/uploads/2019/01/chocolate-cake-pin-2.jpg",
+          "Price": 4,
+          "ingredients": ["Flour", "Cocoa", "Sugar"],
+          "Category": "Desserts",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Ice Cream",
+          "image": "https://th.bing.com/th/id/OIP.8MEFP-36nTK4NGuo6UAxKgHaF7?w=1600&h=1280&rs=1&pid=ImgDetMain",
+          "Price": 3,
+          "ingredients": ["Milk", "Sugar", "Flavoring"],
+          "Category": "Desserts",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Brownie",
+          "image": "https://th.bing.com/th/id/OIP.T-Clbcrvp8ObDRFYWmpcKgHaHw?rs=1&pid=ImgDetMain",
+          "Price": 3,
+          "ingredients": ["Chocolate", "Flour", "Sugar"],
+          "Category": "Desserts",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Fruit Custard",
+          "image": "https://th.bing.com/th/id/OIP.2ZvjgR74jnmVVhE50XRenwHaJ4?rs=1&pid=ImgDetMain",
+          "Price": 4,
+          "ingredients": ["Custard", "Fruits", "Sugar"],
+          "Category": "Desserts",
+          "status": "In Stock"
+        },
+        {
+          "ItemName": "Samosa",
+          "image": "https://recipes.timesofindia.com/photo/61050397.cms?imgsize=347173",
+          "Price": 2,
+          "ingredients": ["Flour", "Potato", "Spices"],
+          "Category": "Snacks",
+          "status": "Out of Stock"
+        }
   ]
   
