@@ -45,7 +45,7 @@
                     <form action="/<%= item._id %>/reviews" method="POST">
                         <fieldset class="starability-basic mb-3">
                             <legend class="h6">Rate this item:</legend>
-                            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                            <input type="radio" id="first-rate1" name="review[rating]" value="1" checked/>
                             <label for="first-rate1" title="Terrible">1 star</label>
 
                             <input type="radio" id="first-rate2" name="review[rating]" value="2" />
@@ -74,11 +74,15 @@
             <div class="card shadow-sm p-4">
                 <h4 class="mb-3"><i class="fas fa-comments"></i> Customer Reviews</h4>
                 <% for(let review of item.reviews) { %>
-                    <div class="card mb-3 p-3 bg-white shadow-sm">
-                        <h5 class="text-warning">
-                            <i class="fas fa-star"></i> Rating: <%= review.rating %>
-                            <p>Author: <%= review.author.username %></p>
+                    <div class="card mb-3 p-3 bg-white userCommentBox">
+                        <div class="reviewBox">
+                        <h5>
+                            <p class="author"><%= review.author.username %></p>
                         </h5>
+                        <h5 class="text-warning">
+                            <i class="fas fa-star"></i><%= review.rating %>
+                        </h5>
+                        </div>
                         <p class="text-muted"><i class="fas fa-quote-left"></i> <%= review.body %> <i class="fas fa-quote-right"></i></p>
                         <% if (currentUser  && review.author.equals(currentUser._id)) { %>
                             <form action="/<%= item._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
