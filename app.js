@@ -203,8 +203,21 @@ app.post('/adminModify/:id', async (req, res) => {
         res.redirect('/adminModify');
     }
 });
-app.get('/profile', (req, res) => {
-    res.render('profile');
+
+app.get('/profile', async (req, res) => {
+    if (!req.user) {
+        req.flash('error', 'You must be logged in to view your profile.');
+        return res.redirect('/login');
+    }
+    try {
+        const user = await User.findById(req.user._id);
+        const previousOrders = await PreviousOrder.find({ user: req.user._id }).populate('items.item');
+        res.render('profile', { user, previousOrders });
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        req.flash('error', 'Failed to fetch user data.');
+        res.redirect('/');
+    }
 });
 
 app.get('/admin/orderHistory', async (req, res) => {
