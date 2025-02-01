@@ -2,6 +2,7 @@ const cart = {};
 const cards = document.getElementsByClassName("CardBox")
 const search = document.getElementById("search")
 const glassIcon = document.getElementById("glass");
+const navText = document.querySelectorAll("nav-text");
 
 search.addEventListener('input', () => {
     Array.from(cards).forEach(card => {
