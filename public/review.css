@@ -201,3 +201,19 @@
   }
 
 }
+.fa-star {
+  color: orange;
+}
+.fa-comments, .fa-comment {
+  color: rgb(0, 200, 255);
+}
+.author {
+  color: purple;
+}
+.reviewBox {
+  display: flex;
+  justify-content: space-between;
+}
+.userCommentBox {
+  box-shadow: 0px 0px 20px rgb(170, 157, 157);
+}
