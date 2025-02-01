@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,5 +32,80 @@
         <p>You have no orders yet.</p>
     <% } %>
     <a href="/">Continue Shopping</a>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .order-card {
+            margin-bottom: 20px;
+        }
+        .order-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 5px 5px 0 0;
+        }
+        .order-footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 0 0 5px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Your Orders</h1>
+        <a href="/" class="btn btn-primary mb-3">Continue Shopping</a>
+        
+        <% if (orders && orders.length > 0) { %>
+            <div class="row">
+                <% orders.forEach(order => { %>
+                    <div class="col-md-6">
+                        <div class="card order-card">
+                            <div class="card-header order-header">
+                                <h2 class="mb-0">Order ID: <%= order._id %></h2>
+                            </div>
+                            <div class="card-body">
+                                <h5>Total Amount: &#8377;<%= order.totalAmount %></h5>
+                                <p><strong>Items:</strong></p>
+                                <ul class="list-group mb-3">
+                                    <% order.items.forEach(item => { %>
+                                        <li class="list-group-item">
+                                            <h5><%= item.item.ItemName %></h5>
+                                            <p>Quantity: <%= item.quantity %></p>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                                <p><strong>Order Date:</strong> <%= order.createdAt.toLocaleString() %></p>
+                                <p><strong>Status:</strong> <%= order.status %></p>
+                            </div>
+                            <div class="card-footer order-footer">
+                                <small>Thank you for your order!</small>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div class="alert alert-warning" role="alert">
+                You have no orders yet.
+            </div>
+        <% } %>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,163 @@
+[
+    {
+      "ItemName": "Cheese Sandwich",
+      "image": "https://th.bing.com/th/id/OIP.8Y1kr1vqTbXWlXZFekbhSQHaHE?rs=1&pid=ImgDetMain",
+      "Price": 3,
+      "ingredients": ["Bread", "Cheese", "Butter"],
+      "Category": "Snacks",
+      "status": "Out of Stock"
+    },
+    {
+      "ItemName": "Veg Burger",
+      "image": "https://www.foodandwine.com/thmb/nfLq4BlAQNSaDlA8b7O5_yGE430=/2000x1334/filters:fill(auto,1)/Ultimate-Veggie-Burgers-FT-Recipe-0821-5d7532c53a924a7298d2175cf1d4219f.jpg",
+      "Price": 4,
+      "ingredients": ["Burger Bun", "Lettuce", "Tomato", "Veg Patty"],
+      "Category": "Snacks",
+      "status": "Out of Stock"
+    },
+    {
+      "ItemName": "Chicken Wrap",
+      "image": "https://th.bing.com/th/id/OIP.5N-v-fQ2oi2vs4mH6TLnUAHaHa?rs=1&pid=ImgDetMain",
+      "Price": 5,
+      "ingredients": ["Tortilla", "Chicken", "Lettuce", "Sauce"],
+      "Category": "Snacks",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "French Fries",
+      "image": "https://i1.wp.com/thissillygirlskitchen.com/wp-content/uploads/2020/02/homemade-french-fries-8-1-1024x1024.jpg",
+      "Price": 2,
+      "ingredients": ["Potatoes", "Salt", "Oil"],
+      "Category": "Snacks",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Fruit Salad",
+      "image": "https://www.thespruceeats.com/thmb/x-BOhpAiemy1XPHLaug-MUIvTgI=/5040x3500/filters:fill(auto,1)/fruit-salad-98841227-5848619a5f9b5851e5f87d5c.jpg",
+      "Price": 3,
+      "ingredients": ["Apple", "Banana", "Orange", "Grapes"],
+      "Category": "Snacks",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Chocolate Milkshake",
+      "image": "https://th.bing.com/th/id/OIP.sUENETckTeTvH8xjSTTS9wHaJ4?w=750&h=1000&rs=1&pid=ImgDetMain",
+      "Price": 3,
+      "ingredients": ["Milk", "Chocolate", "Ice Cream"],
+      "Category": "Beverages",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Lemonade",
+      "image": "https://media.istockphoto.com/photos/lemonade-picture-id181856842?k=20&m=181856842&s=612x612&w=0&h=lh97KFv_MKZGrSrWkrSvKYgv_esgbCiAJp_LkAuDkcI=",
+      "Price": 2,
+      "ingredients": ["Lemon", "Water", "Sugar"],
+      "Category": "Beverages",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Iced Coffee",
+      "image": "https://www.windingcreekranch.org/wp-content/uploads/2022/05/Homemade-iced-coffee-1200-1200.jpg",
+      "Price": 3,
+      "ingredients": ["Coffee", "Ice", "Milk"],
+      "Category": "Beverages",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Green Tea",
+      "image": "https://www.archanaskitchen.com/images/archanaskitchen/beverages/Green_tea_recipe.jpg",
+      "Price": 2,
+      "ingredients": ["Green Tea Leaves", "Water"],
+      "Category": "Beverages",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Pasta Salad",
+      "image": "https://th.bing.com/th/id/OIP.rCyK-Jflu_osriCdi03sqwHaEK?w=1720&h=967&rs=1&pid=ImgDetMain",
+      "Price": 4,
+      "ingredients": ["Pasta", "Vegetables", "Dressing"],
+      "Category": "Snacks",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Paneer Tikka",
+      "image": "https://th.bing.com/th/id/OIP.j6VH4YcKhjTrGLuhTsH5wwHaFj?rs=1&pid=ImgDetMain",
+      "Price": 5,
+      "ingredients": ["Paneer", "Spices", "Bell Peppers"],
+      "Category": "Snacks",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Veg Pizza",
+      "image": "https://www.tasteofhome.com/wp-content/uploads/2018/04/Whole-Wheat-Veggie-Pizza_EXPS_HCKA19_12558_C10_13_5b.jpg",
+      "Price": 6,
+      "ingredients": ["Pizza Base", "Cheese", "Vegetables"],
+      "Category": "Main Course",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Chicken Biryani",
+      "image": "https://th.bing.com/th/id/OIP.CMV98hR5u-F4o_B_yPT7zgHaE8?rs=1&pid=ImgDetMain",
+      "Price": 7,
+      "ingredients": ["Rice", "Chicken", "Spices"],
+      "Category": "Main Course",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Paneer Butter Masala",
+      "image": "https://th.bing.com/th/id/OIP.CeSs_jd4E2sZbwICtF9J1QHaHa?w=1024&h=1024&rs=1&pid=ImgDetMain",
+      "Price": 6,
+      "ingredients": ["Paneer", "Butter", "Spices"],
+      "Category": "Main Course",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Veg Fried Rice",
+      "image": "https://th.bing.com/th/id/R.e30ad155cea3dc0f6fb6b39a7ee9578a?rik=t0Dxpq5TN2JNrQ&riu=http%3a%2f%2fvegecravings.com%2fwp-content%2fuploads%2f2016%2f03%2fveg-fried-rice-step-by-step-recipe.jpg&ehk=cktK%2fjRN4XXEuuUApLn%2b%2bO8HN9ARS9TGk5cxAK8a7jY%3d&risl=&pid=ImgRaw&r=0",
+      "Price": 5,
+      "ingredients": ["Rice", "Vegetables", "Soy Sauce"],
+      "Category": "Main Course",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Chocolate Cake",
+      "image": "https://charlotteslivelykitchen.com/wp-content/uploads/2019/01/chocolate-cake-pin-2.jpg",
+      "Price": 4,
+      "ingredients": ["Flour", "Cocoa", "Sugar"],
+      "Category": "Desserts",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Ice Cream",
+      "image": "https://th.bing.com/th/id/OIP.8MEFP-36nTK4NGuo6UAxKgHaF7?w=1600&h=1280&rs=1&pid=ImgDetMain",
+      "Price": 3,
+      "ingredients": ["Milk", "Sugar", "Flavoring"],
+      "Category": "Desserts",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Brownie",
+      "image": "https://th.bing.com/th/id/OIP.T-Clbcrvp8ObDRFYWmpcKgHaHw?rs=1&pid=ImgDetMain",
+      "Price": 3,
+      "ingredients": ["Chocolate", "Flour", "Sugar"],
+      "Category": "Desserts",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Fruit Custard",
+      "image": "https://th.bing.com/th/id/OIP.2ZvjgR74jnmVVhE50XRenwHaJ4?rs=1&pid=ImgDetMain",
+      "Price": 4,
+      "ingredients": ["Custard", "Fruits", "Sugar"],
+      "Category": "Desserts",
+      "status": "In Stock"
+    },
+    {
+      "ItemName": "Samosa",
+      "image": "https://recipes.timesofindia.com/photo/61050397.cms?imgsize=347173",
+      "Price": 2,
+      "ingredients": ["Flour", "Potato", "Spices"],
+      "Category": "Snacks",
+      "status": "Out of Stock"
+    }
+  ]
+  

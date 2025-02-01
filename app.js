@@ -78,11 +78,11 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/register', (req, res) => {
-    res.render('users/register');
-});
+// app.get('/register', (req, res) => {
+//     res.render('users/register');
+// });
 
-app.get('/orders', async (req, res) => {
+app.get('/orders',isLoggedIn, async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your orders.');
         return res.redirect('/login');
@@ -98,7 +98,7 @@ app.get('/orders', async (req, res) => {
     }
 });
 
-app.get('/cart', async (req, res) => {
+app.get('/cart',isLoggedIn, async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your cart.');
         return res.redirect('/login'); 
@@ -134,6 +134,32 @@ app.post('/register', async (req, res, next) => {
         console.error(e); 
         req.flash('error', 'Registration failed. Please try again.');
         res.redirect('/register');
+    }
+});
+
+app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
+    if (req.user.username === "AdminIITDH") {
+        return res.redirect('/admin');
+    }
+    res.redirect('/');
+});
+
+app.post('/register', async (req, res, next) => {
+    try {
+        const { username, email, password } = req.body;
+        const user = new User({ username, email });
+        const newUser  = await User.register(user, password);
+        const cart = new Cart({ user: newUser ._id, items: [] });
+        await cart.save();
+        req.login(newUser , err => {
+            if (err) return next(err);
+            req.flash('success', 'Registration completed.');
+            res.redirect('/');
+        });
+    } catch (e) {
+        console.error(e);
+        req.flash('error', 'Registration failed. Please try again.');
+        res.redirect('/login'); // Redirect to the combined page
     }
 });
 
@@ -186,14 +212,14 @@ app.delete('/admin/delete/:id', async (req, res) => {
 
 
 app.get('/login', (req, res) => {
-    res.render('users/login');
+    res.render('users/loginRegister');
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile',isLoggedIn, (req, res) => {
     res.render('profile');
 });
 
-app.get('/admin/orderHistory', async (req, res) => {
+app.get('/admin/orderHistory',isLoggedIn, async (req, res) => {
     const { startDate, endDate } = req.query;
 
     if (!startDate || !endDate) {
@@ -205,25 +231,18 @@ app.get('/admin/orderHistory', async (req, res) => {
     console.log('End Date:', endDate);
 
     try {
-        // Convert to UTC
-        const start = new Date(startDate + 'T00:00:00Z'); // Start of the day in UTC
-        const end = new Date(endDate + 'T23:59:59Z'); // End of the day in UTC
-
+        const start = new Date(startDate + 'T00:00:00Z');
+        const end = new Date(endDate + 'T23:59:59Z'); 
         console.log('Parsed Start Date:', start);
         console.log('Parsed End Date:', end);
-
-        // Query the PreviousOrder collection
         const previousOrders = await PreviousOrder.find({
             createdAt: {
                 $gte: start,
                 $lte: end
             }
         }).populate('user', 'username email');
-
-        console.log('Previous Orders found:', previousOrders); // Log the orders found
-
+        console.log('Previous Orders found:', previousOrders);
         const totalAmount = previousOrders.reduce((sum, order) => sum + order.totalAmount, 0);
-
         res.render('orderHistory', { previousOrders, totalAmount, startDate, endDate });
     } catch (error) {
         console.error('Error retrieving order history:', error);
@@ -232,7 +251,7 @@ app.get('/admin/orderHistory', async (req, res) => {
     }
 });
 
-app.get('/admin', async (req, res) => {
+app.get('/admin', isLoggedIn,async (req, res) => {
     try {
         const orders = await Order.find({})
             .populate('user', 'username email')
@@ -245,7 +264,10 @@ app.get('/admin', async (req, res) => {
     }
 });
 
-app.get('/adminModify', async (req, res) => {
+app.get('/adminModify', isLoggedIn,async (req, res) => {
+    if(req.user.username !== "AdminIITDH"){
+        res.flash('error',"you don't have permission to access this page .")
+    }
     try {
         const items = await Item.find({});
         res.render('adminModify', { items });
@@ -270,7 +292,7 @@ app.post('/adminModify/:id', async (req, res) => {
     }
 });
 
-app.get('/previous-orders', async (req, res) => {
+app.get('/previous-orders',isLoggedIn, async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your previous orders.');
         return res.redirect('/login');
@@ -282,16 +304,6 @@ app.get('/previous-orders', async (req, res) => {
         console.error('Error retrieving previous orders:', error);
         req.flash('error', 'Failed to retrieve previous orders.');
         res.redirect('/');
-    }
-});
-
-app.get('/admin_menuPage', async (req, res) => {
-    try {
-        const items = await Item.find({});
-        res.render('admin_menuPage', { items }); 
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
     }
 });
 
