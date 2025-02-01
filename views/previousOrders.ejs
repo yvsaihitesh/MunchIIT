@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Previous Orders</title>
+</head>
+<body>
+    <h1>Your Previous Orders</h1>
+    <% if (previousOrders && previousOrders.length > 0) { %>
+        <ul>
+            <% previousOrders.forEach(order => { %>
+                <li>
+                    <h2>Order ID: <%= order._id %></h2>
+                    <p>Total Amount: &#8377;<%= order.totalAmount %></p>
+                    <p>Items:</p>
+                    <ul>
+                        <% order.items.forEach(item => { %>
+                            <li>
+                                <h3><%= item.item.ItemName %></h3>
+                                <p>Quantity: <%= item.quantity %></p>
+                            </li>
+                        <% }) %>
+                    </ul>
+                    <p>Order Date: <%= order.createdAt.toLocaleString() %></p>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>You have no previous orders yet.</p>
+    <% } %>
+    <a href="/">Continue Shopping</a>
+</body>
+</html>

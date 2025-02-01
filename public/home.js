@@ -1,6 +1,7 @@
 const cart = {};
 const cards = document.getElementsByClassName("CardBox")
 const search = document.getElementById("search")
+const glassIcon = document.getElementById("glass");
 
 search.addEventListener('input', () => {
     Array.from(cards).forEach(card => {

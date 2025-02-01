@@ -17,7 +17,7 @@
               </div>
               <div class="card-body">
                   <h5 class="card-title"><%= item.ItemName %></h5>
-                  <p class="card-text">Price: &#8377;<%= item.Price * 15 %></p>
+                  <p class="card-text">Price: &#8377;<%= item.Price * 15 %> <%= item.status %></p>
                   <div class="cartFlex">
                       <form class="cartFlex" id="cartForm-<%= item._id %>" action="/cart/add/<%= item._id %>" method="POST">
                         <select class="cartSelect" name="quantity" id="quantity-<%= item._id %>">

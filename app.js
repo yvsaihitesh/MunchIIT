@@ -9,18 +9,22 @@ const flash = require('connect-flash');
 const favicon = require('serve-favicon');
 const { isLoggedIn , isReviewAuthor } = require('./middleware')
 const methodOverride = require('method-override');
+const cors = require('cors');
 
 const User = require('./models/user');
 const Item = require('./models/foodItem');
 const Review = require('./models/reviews');
 const Cart = require('./models/cart');
-const Order = require('./models/order')
+const Order = require('./models/order');
+const PreviousOrder = require('./models/previousOrder')
 
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 mongoose.connect('mongodb://localhost:27017/canteen');
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
@@ -122,6 +126,7 @@ app.post('/register', async (req, res, next) => {
         await cart.save(); 
         req.login(newUser , err => {
             if (err) return next(err);
+            req.flash('success', 'Registration completed.');
             res.redirect('/');
         });
     } catch (e) {
@@ -131,6 +136,85 @@ app.post('/register', async (req, res, next) => {
     }
 });
 
+// app.post('/admin/addItem', async (req, res) => {
+//     try {
+//         const { ItemName, image, Price, ingredients, Category, status } = req.body;
+//         console.log(req.body)
+//         // Validate required fields
+//         if (!ItemName || !image || !Price || !ingredients || !Category) {
+//             return res.status(400).json({ message: 'All fields are required' });
+//         }
+
+//         // Parse ingredients if provided as a string
+//         const ingredientsArray = Array.isArray(ingredients)
+//             ? ingredients
+//             : ingredients.split(',').map(ing => ing.trim());
+
+//         const newItem = new Item({
+//             ItemName,
+//             image,
+//             Price: parseFloat(Price),
+//             ingredients: ingredientsArray,
+//             Category,
+//             status: status || 'In Stock',
+//         });
+
+//         await newItem.save();
+//         res.status(200).json({ message: 'Item added successfully', item: newItem });
+//     } catch (error) {
+//         console.error('Error adding new item:', error);
+//         res.status(500).json({ message: 'Failed to add item', error });
+//     }
+// });
+
+app.post('/admin/addItem', async (req, res) => {
+    try {
+        const { ItemName, Price, ingredients, Category, image, status } = req.body;
+
+        // Validate required fields
+        if (!ItemName || !image || !Price || !ingredients || !Category) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Parse ingredients if provided as a string
+        const ingredientsArray = ingredients.split(',').map(ing => ing.trim());
+
+        const newItem = new Item({
+            ItemName,
+            image,
+            Price: parseFloat(Price),
+            ingredients: ingredientsArray,
+            Category,
+            status: status || 'In Stock',
+        });
+
+        await newItem.save();
+        req.flash('success', 'Item added successfully.');
+        res.redirect('/adminModify');
+    } catch (error) {
+        console.error('Error adding new item:', error);
+        req.flash('error', 'Failed to add item.');
+        res.redirect('/adminModify');
+    }
+});
+
+app.delete('/admin/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedItem = await Item.findByIdAndDelete(id);
+
+        if (!deletedItem) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+
+        res.status(200).json({ message: 'Item deleted successfully', item: deletedItem });
+    } catch (error) {
+        console.error('Error deleting item:', error);
+        res.status(500).json({ message: 'Failed to delete item', error });
+    }
+});
+
+
 app.get('/login', (req, res) => {
     res.render('users/login');
 });
@@ -139,12 +223,57 @@ app.get('/profile', (req, res) => {
     res.render('profile');
 });
 
-app.get('/chat', (req, res) => {
-    res.render('chat');
+app.get('/admin', async (req, res) => {
+    try {
+        const orders = await Order.find({})
+            .populate('user', 'username email')
+            .populate('items.item', 'ItemName image Price ingredients Category'); 
+        console.log(orders)
+        res.render('admin', { orders });
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).send('Failed to fetch orders.');
+    }
 });
 
-app.get('/admin', (req, res) => {
-    res.render('admin_homePage');
+app.get('/adminModify', async (req, res) => {
+    try {
+        const items = await Item.find({});
+        res.render('adminModify', { items });
+    } catch (error) {
+        console.error('Error fetching items:', error);
+        req.flash('error', 'Failed to fetch items.');
+        res.redirect('/admin');
+    }
+});
+
+app.post('/adminModify/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body; 
+    try {
+        await Item.findByIdAndUpdate(id, { status: status });
+        req.flash('success', 'Item status updated successfully.');
+        res.redirect('/adminModify');
+    } catch (error) {
+        console.error('Error updating item status:', error);
+        req.flash('error', 'Failed to update item status.');
+        res.redirect('/adminModify');
+    }
+});
+
+app.get('/previous-orders', async (req, res) => {
+    if (!req.user) {
+        req.flash('error', 'You must be logged in to view your previous orders.');
+        return res.redirect('/login');
+    }
+    try {
+        const previousOrders = await PreviousOrder.find({ user: req.user._id }).populate('items.item');
+        res.render('previousOrders', { previousOrders });
+    } catch (error) {
+        console.error('Error retrieving previous orders:', error);
+        req.flash('error', 'Failed to retrieve previous orders.');
+        res.redirect('/');
+    }
 });
 
 app.get('/admin_menuPage', async (req, res) => {
@@ -158,7 +287,9 @@ app.get('/admin_menuPage', async (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
-    console.log("Logged in user ID:", req.user._id); 
+    if(req.user.username == "AdminIITDH"){
+        return res.redirect('/admin');
+    }
     res.redirect('/');
 });
 
@@ -218,12 +349,37 @@ app.delete('/:id/reviews/:reviewId', isLoggedIn, isReviewAuthor, async (req, res
     }
 });
 
+app.post('/orders/:id/deliver', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const order = await Order.findById(id);
+        if (!order) {
+            req.flash('error', 'Order not found.');
+            return res.redirect('/admin');
+        }
+        const previousOrder = new PreviousOrder({
+            user: order.user,
+            items: order.items,
+            totalAmount: order.totalAmount,
+            createdAt: order.createdAt,
+            confirmationMessage: 'Order has been delivered.'
+        });
+        await previousOrder.save(); 
+        await Order.findByIdAndDelete(id); 
+        req.flash('success', 'Order marked as delivered and moved to previous orders.');
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        req.flash('error', 'Failed to update order status.');
+        res.redirect('/admin');
+    }
+});
+
 app.post('/cart/add/:id', async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to add items to your cart.');
         return res.redirect('/login');
     }
-
     const itemId = req.params.id;
     const userId = req.user._id;
     const { quantity } = req.body;
@@ -231,22 +387,17 @@ app.post('/cart/add/:id', async (req, res) => {
         req.flash('error', 'Invalid quantity.');
         return res.redirect('/');
     }
-
     try {
         let cart = await Cart.findOne({ user: userId });
         if (!cart) {
             cart = new Cart({ user: userId, items: [] });
         }
-
         const existingItemIndex = cart.items.findIndex(item => item.item.toString() === itemId);
         if (existingItemIndex > -1) {
-            // Update existing item's quantity
             cart.items[existingItemIndex].quantity += parseInt(quantity, 10);
         } else {
-            // Add new item to cart
             cart.items.push({ item: itemId, quantity: parseInt(quantity, 10) });
         }
-
         await cart.save();
         req.flash('success', 'Item added to cart!');
         res.redirect('/');
@@ -262,12 +413,9 @@ app.post('/cart/update/:id', async (req, res) => {
         req.flash('error', 'You must be logged in to update item quantities.');
         return res.redirect('/login');
     }
-
     const itemId = req.params.id;
     const userId = req.user._id;
     const { quantity } = req.body;
-
-    // Validate quantity
     if (!quantity || isNaN(quantity) || quantity <= 0) {
         req.flash('error', 'Invalid quantity.');
         return res.redirect('/cart');
@@ -299,13 +447,11 @@ app.post('/cart/update/:id', async (req, res) => {
 app.delete('/cart/delete/:id', async (req, res) => {
     try {
         const itemId = req.params.id;
-        const userId = req.user._id; // Use req.user._id to get the logged-in user's ID
-
-        // Find the cart for the user and remove the item
+        const userId = req.user._id;
         const result = await Cart.findOneAndUpdate(
-            { user: userId }, // Correctly reference the user field
-            { $pull: { items: { item: itemId } } }, // Remove the item based on its _id
-            { new: true } // Return the updated document
+            { user: userId }, 
+            { $pull: { items: { item: itemId } } }, 
+            { new: true } 
         );
 
         if (result) {
@@ -324,42 +470,72 @@ app.post('/cart/place-order', async (req, res) => {
         req.flash('error', 'You must be logged in to place an order.');
         return res.redirect('/login');
     }
-
     const userId = req.user._id;
-
     try {
         const cart = await Cart.findOne({ user: userId }).populate('items.item');
         if (!cart || cart.items.length === 0) {
-            req.flash('error', 'Your cart is empty.');
-            return res.redirect('/cart');
+            return res.status(400).json({ error: 'Your cart is empty.' });
         }
-
-        // Calculate total amount
         let totalAmount = 0;
         cart.items.forEach(food => {
             totalAmount += food.item.Price * food.quantity;
         });
-
-        // Create a new order
         const order = new Order({
-            user: userId, // Associate the order with the logged-in user
+            user: userId,
             items: cart.items,
             totalAmount: totalAmount
         });
-
         await order.save();
-
-        // Clear the cart
         await Cart.findOneAndDelete({ user: userId });
-
         req.flash('success', 'Order placed successfully!');
-        res.redirect('/');
+        res.redirect('/orders'); 
     } catch (error) {
         console.error('Error placing order:', error);
-        req.flash('error', 'Failed to place order.');
+        req.flash('error', 'Failed to place order');
         res.redirect('/cart');
     }
 });
+
+app.post('/orders/:id/receive', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const order = await Order.findByIdAndUpdate(id, { status: 'Received', confirmationMessage: 'Order has been received.' });
+        req.flash('success', 'Order marked as received.');
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        req.flash('error', 'Failed to update order status.');
+        res.redirect('/admin');
+    }
+});
+
+app.post('/orders/:id/complete', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const order = await Order.findByIdAndUpdate(id, { status: 'Completed' });
+        req.flash('success', 'Order marked as completed.');
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        req.flash('error', 'Failed to update order status.');
+        res.redirect('/admin');
+    }
+});
+
+app.post('/orders/:id/deliver', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const order = await Order.findById(id);
+        await Order.findByIdAndDelete(id); 
+        req.flash('success', 'Order marked as delivered and removed from current orders.');
+        res.redirect('/admin');
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        req.flash('error', 'Failed to update order status.');
+        res.redirect('/admin');
+    }
+});
+
 
 app.listen('8080', () => {
     console.log("server is responding on 8080.");
