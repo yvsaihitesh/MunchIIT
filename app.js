@@ -78,9 +78,9 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/register', (req, res) => {
-    res.render('users/register');
-});
+// app.get('/register', (req, res) => {
+//     res.render('users/register');
+// });
 
 app.get('/orders', async (req, res) => {
     if (!req.user) {
@@ -186,9 +186,23 @@ app.delete('/admin/delete/:id', async (req, res) => {
 
 
 app.get('/login', (req, res) => {
-    res.render('users/login');
+    res.render('users/loginRegister');
 });
 
+app.post('/adminModify/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status, Price } = req.body; 
+    try {
+        // Update both status and price
+        await Item.findByIdAndUpdate(id, { status: status, Price: parseFloat(Price) });
+        req.flash('success', 'Item status and price updated successfully.');
+        res.redirect('/adminModify');
+    } catch (error) {
+        console.error('Error updating item status and price:', error);
+        req.flash('error', 'Failed to update item status and price.');
+        res.redirect('/adminModify');
+    }
+});
 app.get('/profile', (req, res) => {
     res.render('profile');
 });
@@ -200,19 +214,10 @@ app.get('/admin/orderHistory', async (req, res) => {
         req.flash('error', 'Please provide both start and end dates.');
         return res.redirect('/admin');
     }
-
-    console.log('Start Date:', startDate);
-    console.log('End Date:', endDate);
-
     try {
         // Convert to UTC
         const start = new Date(startDate + 'T00:00:00Z'); // Start of the day in UTC
         const end = new Date(endDate + 'T23:59:59Z'); // End of the day in UTC
-
-        console.log('Parsed Start Date:', start);
-        console.log('Parsed End Date:', end);
-
-        // Query the PreviousOrder collection
         const previousOrders = await PreviousOrder.find({
             createdAt: {
                 $gte: start,
@@ -256,6 +261,7 @@ app.get('/adminModify', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 app.post('/adminModify/:id', async (req, res) => {
     const { id } = req.params;
     const { status, Price } = req.body; 
@@ -271,6 +277,8 @@ app.post('/adminModify/:id', async (req, res) => {
     }
 });
 
+=======
+>>>>>>> 4ad94640345c1ff43a59013fe8a191303f6540ee
 app.get('/previous-orders', async (req, res) => {
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your previous orders.');
