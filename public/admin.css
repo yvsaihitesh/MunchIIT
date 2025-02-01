@@ -56,3 +56,59 @@
     color: white;
     padding-right: 7px;
 }
+.cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.quantity-input {
+    text-align: center;
+}
+.container {
+    width: 100%; /* Use full width */
+    margin-right: 0; /* Remove right margin */
+    padding-top: 1vh;
+}
+.continueShopping {
+    border: 2px solid purple;
+    background-color: white;
+    color: purple;
+    text-decoration: none;
+    border-radius: 1vh;
+    padding: 1vh 2vh;
+}
+.continueShopping:hover {
+    cursor: pointer;
+    background-color: purple;
+    color: white;
+    scale: 1.1;
+    opacity: 0.7;
+}
+
+@media (max-width: 1000px) {
+    .container {
+        width: auto; /* Allow auto width on smaller screens */
+        margin-right: 1vh;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .removeItem {
+        display: flex;
+        justify-content: space-between;
+    }
+    .continueShopping {
+        margin-right: 1vh;
+    }
+}
+th{
+    text-align: center;
+}
+.newItemForm{
+    border: 2px solid purple;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 4px;
+}

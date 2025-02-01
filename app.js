@@ -78,9 +78,9 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/register', (req, res) => {
-    res.render('users/register');
-});
+// app.get('/register', (req, res) => {
+//     res.render('users/register');
+// });
 
 app.get('/orders', async (req, res) => {
     if (!req.user) {
@@ -186,33 +186,54 @@ app.delete('/admin/delete/:id', async (req, res) => {
 
 
 app.get('/login', (req, res) => {
-    res.render('users/login');
+    res.render('users/loginRegister');
 });
 
-app.get('/profile', (req, res) => {
-    res.render('profile');
+app.post('/adminModify/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status, Price } = req.body; 
+    try {
+        // Update both status and price
+        await Item.findByIdAndUpdate(id, { status: status, Price: parseFloat(Price) });
+        req.flash('success', 'Item status and price updated successfully.');
+        res.redirect('/adminModify');
+    } catch (error) {
+        console.error('Error updating item status and price:', error);
+        req.flash('error', 'Failed to update item status and price.');
+        res.redirect('/adminModify');
+    }
+});
+
+app.get('/profile', async (req, res) => {
+    if (!req.user) {
+        req.flash('error', 'You must be logged in to view your profile.');
+        return res.redirect('/login');
+    }
+    try {
+        const user = await User.findById(req.user._id);
+        const previousOrders = await PreviousOrder.find({ user: req.user._id }).populate('items.item');
+        res.render('profile', { user, previousOrders });
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        req.flash('error', 'Failed to fetch user data.');
+        res.redirect('/');
+    }
 });
 
 app.get('/admin/orderHistory', async (req, res) => {
     const { startDate, endDate } = req.query;
-
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     if (!startDate || !endDate) {
         req.flash('error', 'Please provide both start and end dates.');
         return res.redirect('/admin');
     }
-
-    console.log('Start Date:', startDate);
-    console.log('End Date:', endDate);
-
     try {
         // Convert to UTC
         const start = new Date(startDate + 'T00:00:00Z'); // Start of the day in UTC
         const end = new Date(endDate + 'T23:59:59Z'); // End of the day in UTC
-
-        console.log('Parsed Start Date:', start);
-        console.log('Parsed End Date:', end);
-
-        // Query the PreviousOrder collection
         const previousOrders = await PreviousOrder.find({
             createdAt: {
                 $gte: start,
@@ -233,11 +254,14 @@ app.get('/admin/orderHistory', async (req, res) => {
 });
 
 app.get('/admin', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     try {
         const orders = await Order.find({})
             .populate('user', 'username email')
             .populate('items.item', 'ItemName image Price ingredients Category'); 
-        console.log(orders)
         res.render('admin', { orders });
     } catch (error) {
         console.error('Error fetching orders:', error);
@@ -246,6 +270,10 @@ app.get('/admin', async (req, res) => {
 });
 
 app.get('/adminModify', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
     try {
         const items = await Item.find({});
         res.render('adminModify', { items });
@@ -258,14 +286,15 @@ app.get('/adminModify', async (req, res) => {
 
 app.post('/adminModify/:id', async (req, res) => {
     const { id } = req.params;
-    const { status } = req.body; 
+    const { status, Price } = req.body; 
     try {
-        await Item.findByIdAndUpdate(id, { status: status });
-        req.flash('success', 'Item status updated successfully.');
+        // Update both status and price
+        await Item.findByIdAndUpdate(id, { status: status, Price: parseFloat(Price) });
+        req.flash('success', 'Item status and price updated successfully.');
         res.redirect('/adminModify');
     } catch (error) {
-        console.error('Error updating item status:', error);
-        req.flash('error', 'Failed to update item status.');
+        console.error('Error updating item status and price:', error);
+        req.flash('error', 'Failed to update item status and price.');
         res.redirect('/adminModify');
     }
 });

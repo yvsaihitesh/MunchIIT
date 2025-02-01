@@ -4,13 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Modify Items</title>
+    <title>Admin Modify Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="/admin.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Admin Modify Items</h1>
+<body class="bg-light">
+    <div class="d-flex justify-content-between align-items-center mb-2 mt-2 me-4 header">
+        <h1 class="ms-2 mt-1"><i class="bi bi-pencil-square"></i>Modify Items</h1>
+        <a href="/" class="continueShopping">
+            <i class="bi bi-arrow-left"></i> Home
+        </a>
+    </div>
+    <div class="container">
+        <!-- Scroll to Form Button -->
+        <a href="#addItemForm" class="btn btn-secondary mb-3">Add New Item</a>
 
         <!-- Items Table -->
         <div class="table-responsive">
@@ -19,8 +29,7 @@
                     <tr>
                         <th>Item Image</th>
                         <th>Item Name</th>
-                        <th>Price</th>
-                        <th>Status</th>
+                        <th>Updation</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -29,31 +38,29 @@
                         <% items.forEach(item => { %>
                             <tr>
                                 <td>
-                                    <img src="<%= item.image %>" alt="<%= item.ItemName %>" class="img-fluid" style="width: 100px; height: 100px; object-fit: cover;">
+                                    <img src="<%= item.image %>" alt="<%= item.ItemName %>" class="cart-item-image img-fluid">
                                 </td>
                                 <td><%= item.ItemName %></td>
-                                <td>₹<%= item.Price %></td>
                                 <td>
-                                    <form action="/adminModify/<%= item._id %>" method="POST">
-                                        <input type="number">
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="/adminModify/<%= item._id %>" method="POST">
-                                        <select name="status" class="form-select" onchange="this.form.submit()">
+                                    <form action="/adminModify/<%= item._id %>" method="POST" class="d-flex">
+                                        <input type="number" name="Price" class="form-control me-2" value="<%= item.Price %>" required>
+                                        <select name="status" class="form-select me-2" onchange="this.form.submit()">
                                             <option value="In Stock" <%= item.status === 'In Stock' ? 'selected' : '' %>>In Stock</option>
                                             <option value="Out of Stock" <%= item.status === 'Out of Stock' ? 'selected' : '' %>>Out of Stock</option>
                                         </select>
                                     </form>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteItem('<%= item._id %>')">Delete</button>
+                                    <button type="submit" class="btn btn-primary btn-sm me-2">Update</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteItem('<%= item._id %>')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
                                 </td>
                             </tr>
                         <% }); %>
                     <% } else { %>
                         <tr>
-                            <td colspan="5" class="text-center">No items found</td>
+                            <td colspan="4" class="text-center">No items found</td>
                         </tr>
                     <% } %>
                 </tbody>
@@ -61,7 +68,8 @@
         </div>
 
         <!-- Add New Item Form -->
-        <h2 class="mt-5">Add New Item</h2>
+         <div class="newItemForm">
+        <h2 class="mt-5" id="addItemForm">Add New Item</h2>
         <form action="/admin/addItem" method="POST" class="needs-validation" novalidate>
             <div class="row">
                 <div class="col-md-6 mb-3">
@@ -103,9 +111,10 @@
                 <div class="invalid-feedback">Please select a status.</div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Add Item</button>
+            <button type="submit" class="btn btn-primary itemAddition">Add Item</button>
         </form>
     </div>
+</div>
 
     <script>
         const addItemForm = document.querySelector('form');
