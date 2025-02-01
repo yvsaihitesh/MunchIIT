@@ -5,7 +5,8 @@
       "Price": 3,
       "ingredients": ["Bread", "Cheese", "Butter"],
       "Category": "Breakfast",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Veg Burger",
@@ -13,7 +14,8 @@
       "Price": 4,
       "ingredients": ["Burger Bun", "Lettuce", "Tomato", "Veg Patty"],
       "Category": "Snacks",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Chicken Wrap",
@@ -21,7 +23,8 @@
       "Price": 5,
       "ingredients": ["Tortilla", "Chicken", "Lettuce", "Sauce"],
       "Category": "Snacks",
-      "type": "Non-Veg"
+      "type": "Non-Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "French Fries",
@@ -29,7 +32,8 @@
       "Price": 2,
       "ingredients": ["Potatoes", "Salt", "Oil"],
       "Category": "Snacks",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Fruit Salad",
@@ -37,7 +41,8 @@
       "Price": 3,
       "ingredients": ["Apple", "Banana", "Orange", "Grapes"],
       "Category": "Snacks",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Chocolate Milkshake",
@@ -45,7 +50,8 @@
       "Price": 3,
       "ingredients": ["Milk", "Chocolate", "Ice Cream"],
       "Category": "Breakfast",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Lemonade",
@@ -53,7 +59,8 @@
       "Price": 2,
       "ingredients": ["Lemon", "Water", "Sugar"],
       "Category": "Snacks",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Iced Coffee",
@@ -61,7 +68,8 @@
       "Price": 3,
       "ingredients": ["Coffee", "Ice", "Milk"],
       "Category": "Breakfast",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Green Tea",
@@ -69,7 +77,8 @@
       "Price": 2,
       "ingredients": ["Green Tea Leaves", "Water"],
       "Category": "Breakfast",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Pasta Salad",
@@ -77,7 +86,8 @@
       "Price": 4,
       "ingredients": ["Pasta", "Vegetables", "Dressing"],
       "Category": "Breakfast Snacks",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Paneer Tikka",
@@ -85,7 +95,8 @@
       "Price": 5,
       "ingredients": ["Paneer", "Spices", "Bell Peppers"],
       "Category": "Lunch Dinner",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Butter Chicken",
@@ -93,7 +104,8 @@
       "Price": 12,
       "ingredients": ["Chicken", "Tomato Gravy", "Butter", "Spices"],
       "Category": "Dinner",
-      "type": "Non-Veg"
+      "type": "Non-Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Fish Curry",
@@ -101,7 +113,8 @@
       "Price": 15,
       "ingredients": ["Fish", "Coconut Milk", "Spices", "Tamarind"],
       "Category": "Dinner",
-      "type": "Non-Veg"
+      "type": "Non-Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Dal Tadka",
@@ -109,7 +122,8 @@
       "Price": 8,
       "ingredients": ["Lentils", "Garlic", "Ghee", "Spices"],
       "Category": "Dinner",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
     {
       "ItemName": "Vegetable Pulao",
@@ -117,7 +131,8 @@
       "Price": 6,
       "ingredients": ["Rice", "Vegetables", "Spices"],
       "Category": "Dinner",
-      "type": "Veg"
+      "type": "Veg",
+      "status": "In Stock"
     },
         {
           "ItemName": "Chicken Curry",
@@ -130,7 +145,8 @@
             "Onions"
           ],
           "Category": "lunch",
-          "type": "Non-Veg"
+          "type": "Non-Veg",
+          "status": "In Stock"
         },
         {
           "ItemName": "Rajma Chawal",
@@ -143,7 +159,8 @@
             "Spices"
           ],
           "Category": "lunch",
-          "type": "Veg"
+          "type": "Veg",
+          "status": "In Stock"
         },
         {
           "ItemName": "Mutton Rogan Josh",
@@ -156,7 +173,8 @@
             "Spices"
           ],
           "Category": "lunch",
-          "type": "Non-Veg"
+          "type": "Non-Veg",
+          "status": "In Stock"
         }      
   ]
   
