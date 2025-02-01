@@ -1,14 +1,20 @@
 <nav class="navbar">
-<div class="navigationBar fixed-top d-flex justify-content-between shadow-sm p-2">
-    <h4 class="fw-bold text-light">Food Ordering</h4>
+<div class="navigationBar fixed-top d-flex justify-content-between shadow-sm">
+  <img class="nav-img" src="nav-bar.jpg">
+  <h4 class="fw-bold text-light">MunchIIT</h4>
     <div class="navbarButtons flex-row">
-          <a class="nav-link home" href="/"><i class="fas fa-home"></i> </a>
-          <a class="nav-link login" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+      <% if(!currentUser) { %>
+        <a class="nav-link login" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>  
+      <% } %>
+          <a class="nav-link home" href="/"><i class="fas fa-home"></i>Home </a>
           <a class="nav-link cart position-relative" href="/cart"><i class="fas fa-shopping-cart"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartBadge">
-            0</span></a>
-          <a class="nav-link chat position-relative" href="/chat"><i class="fas fa-comment-dots"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="chatBadge">
-            0</span></a>
-          <a class="nav-link profile" href="/profile"><i class="fas fa-user"></i></a>
+            0</span>Cart</a>
+            <% if(currentUser) { %>
+              <a class="nav-link profile" href="/profile"><i class="fas fa-user"></i>User</a> 
+            <% } %>
+            
+          
+          
     </div>
 </div>
 </nav>

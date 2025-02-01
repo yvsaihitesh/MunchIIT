@@ -400,7 +400,7 @@ app.post('/cart/add/:id', async (req, res) => {
         }
         await cart.save();
         req.flash('success', 'Item added to cart!');
-        res.redirect('/cart');
+        res.redirect('/');
     } catch (error) {
         console.error('Error adding item to cart:', error);
         req.flash('error', 'Failed to add item to cart.');
