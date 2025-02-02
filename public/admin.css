@@ -16,6 +16,14 @@
     position: absolute;
     z-index: -1;
 }
+.iit {
+    color: #FAA519;
+}
+.iitBrand {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 .nav-link {
     margin: 0 1.5vw;
 }
@@ -112,3 +120,15 @@ th{
     margin: 10px;
     border-radius: 4px;
 }
+.adminout{
+    position: fixed;
+    bottom: 4%;
+    left: 88%;
+    border: 2vh;
+    border-radius: 1.25vh;
+    background-color: red;
+    color: white;
+    padding: 1vh;
+    box-shadow: 0 0 10px black;
+    z-index: 1;
+    }

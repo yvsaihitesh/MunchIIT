@@ -82,7 +82,42 @@ app.get('/', async (req, res) => {
 //     res.render('users/register');
 // });
 
+<<<<<<< HEAD
 app.get('/orders',isLoggedIn, async (req, res) => {
+=======
+// app.get('/orders', async (req, res) => {
+//     if (!req.user) {
+//         req.flash('error', 'You must be logged in to view your orders.');
+//         return res.redirect('/login');
+//     }
+
+//     try {
+//         const orders = await Order.find({ user: req.user._id }).populate('items.item');
+//         res.render('orders', { orders });
+//     } catch (error) {
+//         console.error('Error retrieving orders:', error);
+//         req.flash('error', 'Failed to retrieve orders.');
+//         res.redirect('/');
+//     }
+// });
+// app.get('/orders', async (req, res) => {
+//     if (!req.user) {
+//         req.flash('error', 'You must be logged in to view your orders.');
+//         return res.redirect('/login');
+//     }
+
+//     try {
+//         const orders = await Order.find({ user: req.user._id }).populate('items.item');
+//         console.log(orders); // Log the orders to see their structure
+//         res.render('orders', { orders });
+//     } catch (error) {
+//         console.error('Error retrieving orders:', error);
+//         req.flash('error', 'Failed to retrieve orders.');
+//         res.redirect('/');
+//     }
+// });
+app.get('/orders', async (req, res) => {
+>>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your orders.');
         return res.redirect('/login');
@@ -90,12 +125,22 @@ app.get('/orders',isLoggedIn, async (req, res) => {
 
     try {
         const orders = await Order.find({ user: req.user._id }).populate('items.item');
+        console.log(orders); // Log the orders to see their structure
         res.render('orders', { orders });
     } catch (error) {
         console.error('Error retrieving orders:', error);
         req.flash('error', 'Failed to retrieve orders.');
         res.redirect('/');
     }
+});
+app.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success', 'Logged out successfully');
+        res.redirect('/');
+    });
 });
 
 app.get('/cart',isLoggedIn, async (req, res) => {
@@ -128,6 +173,9 @@ app.post('/register', async (req, res, next) => {
         req.login(newUser , err => {
             if (err) return next(err);
             req.flash('success', 'Registration completed.');
+            if(newUser.username === 'AdminIITDH'){
+                return res.redirect('/admin')
+            }
             res.redirect('/');
         });
     } catch (e) {
@@ -215,6 +263,7 @@ app.get('/login', (req, res) => {
     res.render('users/loginRegister');
 });
 
+<<<<<<< HEAD
 app.get('/profile', (req, res) => {
     res.render('profile');
 });
@@ -244,19 +293,67 @@ app.get('/admin/orderHistory',isLoggedIn, async (req, res) => {
         console.log('Previous Orders found:', previousOrders);
         const totalAmount = previousOrders.reduce((sum, order) => sum + order.totalAmount, 0);
         res.render('orderHistory', { previousOrders, totalAmount, startDate, endDate });
+=======
+app.post('/adminModify/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status, Price } = req.body; 
+    try {
+        // Update both status and price
+        await Item.findByIdAndUpdate(id, { status: status, Price: parseFloat(Price) });
+        req.flash('success', 'Item status and price updated successfully.');
+        res.redirect('/adminModify');
     } catch (error) {
-        console.error('Error retrieving order history:', error);
-        req.flash('error', 'Failed to retrieve order history.');
-        res.redirect('/admin');
+        console.error('Error updating item status and price:', error);
+        req.flash('error', 'Failed to update item status and price.');
+        res.redirect('/adminModify');
     }
 });
 
+app.get('/profile', async (req, res) => {
+    if (!req.user) {
+        req.flash('error', 'You must be logged in to view your profile.');
+        return res.redirect('/login');
+    }
+    try {
+        const user = await User.findById(req.user._id);
+        const previousOrders = await PreviousOrder.find({ user: req.user._id }).populate('items.item');
+        res.render('profile', { user, previousOrders });
+>>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        req.flash('error', 'Failed to fetch user data.');
+        res.redirect('/');
+    }
+});
+
+app.get('/orderHistory', async (req, res) => {
+    try {
+        // Fetch all previous orders and populate user and item details
+        const previousOrders = await PreviousOrder.find({})
+            .populate('user', 'username email') // Populate user details
+            .populate('items.item', 'ItemName image Price'); // Populate item details
+
+        // Render the orderHistory.ejs template with the fetched data
+        res.render('orderHistory', { previousOrders });
+    } catch (error) {
+        console.error('Error fetching previous orders:', error);
+        res.status(500).send('Failed to fetch previous orders.');
+    }
+});
+
+<<<<<<< HEAD
 app.get('/admin', isLoggedIn,async (req, res) => {
+=======
+app.get('/admin', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+    }
+>>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
     try {
         const orders = await Order.find({})
             .populate('user', 'username email')
             .populate('items.item', 'ItemName image Price ingredients Category'); 
-        console.log(orders)
         res.render('admin', { orders });
     } catch (error) {
         console.error('Error fetching orders:', error);
@@ -264,9 +361,16 @@ app.get('/admin', isLoggedIn,async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 app.get('/adminModify', isLoggedIn,async (req, res) => {
     if(req.user.username !== "AdminIITDH"){
         res.flash('error',"you don't have permission to access this page .")
+=======
+app.get('/adminModify', async (req, res) => {
+    if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
+        req.flash('error',"you don't have permission to access this page .")
+        return res.redirect('/login')
+>>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
     }
     try {
         const items = await Item.find({});

@@ -13,6 +13,28 @@
     margin-right: 5vh;
     padding-top: 1vh;
 }
+.photo {
+    width: 1000px;
+    height: 900px;
+    position: absolute;
+    top: 25%;
+    left:10%;
+}
+
+.cartempty {
+    font-size: 6vmax;
+}
+.emptycart p {
+    margin: 0;
+    font-size: 3vmax;
+}
+.emptycart {
+    height: 77vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 .continueShopping {
     border: 2px solid purple;
     background-color: white;
@@ -44,5 +66,8 @@
     }
     .continueShopping {
         margin-right: 1vh;
+    }
+    .photo {
+        display: none;
     }
   }

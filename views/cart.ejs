@@ -25,7 +25,10 @@
     </div>
     <div class="container">
       <% if (cart && cart.items.length > 0) { %>
-      <div class="card mb-4">
+        <div class="col-lg-3 d-md-block p-0 photo">
+          <img src="photos.jpg" class="img-fluid" alt="Cart Background" />
+        </div>
+        <div class="card mb-4">
         <div class="card-body">
           <% let totalAmount = 0; %> <% cart.items.forEach(food => { %>
           <div class="row g-3 align-items-center mb-4">
@@ -103,8 +106,14 @@
         </div>
       </div>
       <% } else { %>
-      <div class="alert alert-warning text-center" role="alert">
-        <i class="bi bi-cart-x"></i> Your cart is empty. Start adding items!
+        <div class="col-lg-3 d-md-block p-0 photo">
+          <img src="photos.jpg" class="img-fluid" alt="Cart Background" />
+        </div>
+        <div class="alert alert-warning text-center emptycart" role="alert">
+        <div><i class="bi bi-cart-x cartempty"></i></div>
+        <p>Your cart is empty.</p> 
+        <p>Start adding items!</p>
+      
       </div>
       <% } %>
     </div>

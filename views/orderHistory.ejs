@@ -5,38 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order History</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        .floating-card {
+            background-color: white; /* Card background */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for floating effect */
+            padding: 20px; /* Padding inside the card */
+            margin-top: 20px; /* Space above the card */
+        }
+        h1 {
+            text-align: center; /* Center the title */
+        }
+        .container {
+            margin: 0 auto; /* Center the container */
+            padding-top: 3vw; /* Space above the content */
+        }
+        .table {
+            border: 2px solid #000; /* Table border */
+        }
+        .table th, .table td {
+            border: 2px solid #000; /* Cell borders */
+        }
+    </style>
 </head>
 <body>
+    <%- include('admin/admin_navbar') %>
     <div class="container mt-4">
-        <h1>Order History from <%= startDate %> to <%= endDate %></h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>User</th>
-                    <th>Total Amount</th>
-                    <th>Created At</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (previousOrders.length > 0) { %>
-                    <% previousOrders.forEach(order => { %>
-                        <tr>
-                            <td><%= order._id %></td>
-                            <td><%= order.user.username %> (<%= order.user.email %>)</td>
-                            <td>₹<%= order.totalAmount %></td>
-                            <td><%= order.createdAt.toLocaleString() %></td>
-                        </tr>
-                    <% }); %>
-                <% } else { %>
+        <div class="floating-card">
+            <h1 class="text-center">Order History</h1>
+            <table class="table table-bordered mt-4">
+                <thead>
                     <tr>
-                        <td colspan="4" class="text-center">No orders found for this date range.</td>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Items</th>
+                        <th>Total Amount</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
                     </tr>
-                <% } %>
-            </tbody>
-        </table>
-        <h3>Total Amount: ₹<%= totalAmount %></h3>
-        <a href="/admin" class="btn btn-secondary">Back to Admin</a>
+                </thead>
+                <tbody>
+                    <% if (previousOrders && previousOrders.length > 0) { %>
+                        <% previousOrders.forEach(order => { %>
+                            <tr>
+                                <td><%= order._id.toString().slice(-3) %></td>
+                                <td><%= order.user ? order.user.username : 'Unknown User' %></td>
+                                <td>
+                                    <% order.items.forEach(item => { %>
+                                        <%= item.item ? item.item.ItemName : 'Item Deleted' %> &times; <%= item.quantity %> <br>
+                                    <% }); %>
+                                </td>
+                                <td>₹<%= order.totalAmount * 15 %></td>
+                                <td><%= new Date(order.createdAt).toLocaleString('en-US', { 
+                                    year: 'numeric', 
+                                    month: 'short', 
+                                    day: '2-digit', 
+                                    hour: '2-digit', 
+                                    minute: '2-digit', 
+                                    second: '2-digit', 
+                                    hour12: false 
+                                }).replace(/,/, '') %></td>
+                                <td><%= order.status %></td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center">No orders found</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

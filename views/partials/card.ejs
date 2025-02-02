@@ -1,39 +1,63 @@
-     <% items.forEach(item => { %>
-      <div class="col CardBox">
-          <div class="card h-100 shadow-sm">
-              <div class="Card">
-                  <div class="front">
-                      <img src="<%= item.image %>" class="card-img-top" alt="problem" onclick="window.location.href='<%= item._id %>'">
-                  </div>
-                  <div class="back">
-                      <p>Ingredients
-                      <ul>
-                          <% for (let i = 0; i < item.ingredients.length; i++) { %>
-                              <li><%= item.ingredients[i] %></li>
-                          <% } %>
-                      </ul>
-                      </p>
-                  </div>
-              </div>
-              <div class="card-body">
-                  <h5 class="card-title"><%= item.ItemName %></h5>
-                  <p class="card-text">Price: &#8377;<%= item.Price * 15 %> <%= item.status %></p>
-                  <div class="cartFlex">
-                      <form class="cartFlex" id="cartForm-<%= item._id %>" action="/cart/add/<%= item._id %>" method="POST">
+<% items.forEach(item => { %>
+    <div class="col CardBox">
+        <div class="card h-100 shadow-sm">
+            <div class="Card">
+                <div class="front">
+                    <!-- Check if item is out of stock and apply blur and out-of-stock message -->
+                    <div class="image-container">
+                        <img src="<%= item.image %>" class="card-img-top <%= item.status === 'outofstock' ? 'blurred' : '' %>" alt="problem" onclick="window.location.href='<%= item._id %>'">
+                        <% if (item.status === 'outofstock') { %>
+                            <div class="out-of-stock">Out of Stock</div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="back">
+                    <p>Ingredients
+                    <ul>
+                        <% for (let i = 0; i < item.ingredients.length; i++) { %>
+                            <li><%= item.ingredients[i] %></li>
+                        <% } %>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="cardtitle">
+                <h5 class="card-title">
+                    <%= item.ItemName %>
+                    <!-- Veg/Non-Veg icon at the right side of the item name -->
+                </h5> 
+                    <% if (item.type && item.type.toLowerCase() === "veg") { %>
+                        <span class="item-type"> <i class="fas fa-leaf"></i> Veg</span>
+                    <% } else { %>
+                        <span class="item-type"> <i class="fas fa-drumstick-bite"></i>Non Veg</span>
+                    <% } %>
+                </div>
+               
+                
+                <!-- Price and Category at the right side of price -->
+                <div class="item-info">
+                    <span class="price">Price: &#8377;<%= item.Price * 15 %></span>
+                    <span class="category" style="color: white;"><%= item.Category %></span>
+                </div>
+  
+                <div class="cartFlex">
+                    <form class="cartFlex" id="cartForm-<%= item._id %>" action="/cart/add/<%= item._id %>" method="POST">
                         <select class="cartSelect" name="quantity" id="quantity-<%= item._id %>">
                             <% for (let i = 1; i <= 10; i++) { %>
                                 <option value="<%= i %>"><%= i %></option>
                             <% } %>
                         </select>
                         <button class="addCart" type="submit">
-                         <i class="fas fa-cart-plus"></i><span class="centerSpan">Add Cart</span>
-                          </button>
-                      </form>
-                      <button class="reviews" onclick="window.location.href='<%= item._id %>'">
-                          <i class="fas fa-star"></i><span class="centerSpan">Reviews</span>
-                      </button>
-                  </div>
-              </div>
-          </div>
-      </div>
-    <% }) %>
+                            <i class="fas fa-cart-plus"></i><span class="centerSpan">Add to cart</span>
+                        </button>
+                    </form>
+                    <button class="reviews" onclick="window.location.href='<%= item._id %>'">
+                        <i class="fas fa-star"></i><span class="centerSpan">Reviews</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+  <% }) %>
+  

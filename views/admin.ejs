@@ -8,68 +8,111 @@
     <link rel="stylesheet" href="admin.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        .floating-card {
+            background-color: white; /* Card background */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for floating effect */
+            padding: 20px; /* Padding inside the card */
+            margin-top: 20px; /* Space above the card */
+        }
+        h1 {
+            text-align: center; /* Center the title */
+        }
+        .container {
+            margin: 0 auto; /* Center the table */
+        }
+        .table {
+            border: 2px solid #000;
+            border-radius: 7px;
+        }
+        .table th, .table td {
+            border: 2px solid #000; 
+        }
+    .adminout{
+      position: fixed;
+      bottom: 4%;
+      left: 88%;
+      border: 2vh;
+      border-radius: 1.25vh;
+      background-color: red;
+      color: white;
+      padding: 1vh;
+      box-shadow: 0 0 10px black;
+      z-index: 1;
+      }
+  </style>
 </head>
 <body>
-    <%- include('admin/admin_navbar')%>
+    <%- include('admin/admin_navbar') %>
+
     <div class="container mt-4 pt-5">
-        <h1>Admin Orders</h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>User</th>
-                    <th>Items</th>
-                    <th>Total Amount</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (orders && orders.length > 0) { %>
-                    <% orders.forEach(order => { %>
+        <div class="floating-card">
+            <h1>Admin Orders</h1>
+                <table class="table table-bordered text-center">
+                    <thead>
                         <tr>
-                            <td><%= order._id %></td>
-                            <td>
-                                <%= order.user ? `${order.user.username} (${order.user.email})` : 'Unknown User' %>
-                            </td>
-                            <td>
-                                <ul>
-                                    <% order.items.forEach(item => { %>
-                                        <li>
-                                            <strong>Name:</strong> <%= item.item ? item.item.ItemName : 'Item Deleted' %> <br>
-                                            <strong>Price:</strong> ₹<%= item.item ? item.item.Price : 'N/A' %> <br>
-                                            <strong>Quantity:</strong> <%= item.quantity %>
-                                        </li>
-                                    <% }); %>
-                                </ul>
-                            </td>
-                            <td>₹<%= order.totalAmount %></td>
-                            <td><%= order.status %></td>
-                            <td>
-                                <% if (order.status === 'Pending') { %>
-                                    <form action="/orders/<%= order._id %>/receive" method="POST">
-                                        <button class="btn btn-sm btn-success">Order Received</button>
-                                    </form>
-                                <% } else if (order.status === 'Received') { %>
-                                    <form action="/orders/<%= order._id %>/complete" method="POST">
-                                        <button class="btn btn-sm btn-warning">Order Completed</button>
-                                    </form>
-                                <% } else if (order.status === 'Completed') { %>
-                                    <form action="/orders/<%= order._id %>/deliver" method="POST">
-                                        <button class="btn btn-sm btn-info">Order Delivered</button>
-                                    </form>
-                                <% } %>
-                            </td>
+                            <th>Order ID</th>
+                            <th>User</th>
+                            <th>Items</th>
+                            <th>Total Amount</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
-                    <% }); %>
-                <% } else { %>
-                    <tr>
-                        <td colspan="7" class="text-center">No orders found</td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        <% if (orders && orders.length > 0) { %>
+                            <% orders.forEach(order => { %>
+                                <tr>
+                                    <td><%= order._id.toString().slice(-3) %></td>
+                                    <td><%= order.user.username %></td>
+                                    <td>
+                                        <% order.items.forEach(item => { %>
+                                            <%= item.item ? item.item.ItemName : 'Item Deleted' %> &times; <%= item.quantity %> <br>
+                                        <% }); %>
+                                    </td>
+                                    <td>₹<%= order.totalAmount * 15 %></td>
+                                    <td>
+                                        <%= new Date(order.createdAt).toLocaleString('en-US', { 
+                                            year: 'numeric', 
+                                            month: 'short', 
+                                            day: '2-digit', 
+                                            hour: '2-digit', 
+                                            minute: '2-digit', 
+                                            second: '2-digit', 
+                                            hour12: false 
+                                        }).replace(/,/, '') %>
+                                    </td>
+                                    <td><%= order.status %></td>
+                                    <td>
+                                        <% if (order.status === 'Pending') { %>
+                                            <form action="/orders/<%= order._id %>/receive" method="POST">
+                                                <button class="btn btn-sm btn-success">Order Received</button>
+                                            </form>
+                                        <% } else if (order.status === 'Received') { %>
+                                            <form action="/orders/<%= order._id %>/complete" method="POST">
+                                                <button class="btn btn-sm btn-warning">Order Completed</button>
+                                            </form>
+                                        <% } else if (order.status === 'Completed') { %>
+                                            <form action="/orders/<%= order._id %>/deliver" method="POST">
+                                                <button class="btn btn-sm btn-info">Order Delivered</button>
+                                            </form>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center">No orders found</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
