@@ -35,11 +35,6 @@
 .cart , .home {
     margin-top: 2px;
 }
-.login{
-    border: 2px solid purple;
-    border-radius: 5px;
-    padding: 3px 0.7vw;
-}
 
 #search{
     border-radius: 57px;
@@ -108,7 +103,6 @@ img {
     background-color: gold;
 }
 button {
-    
     color: white;
     border: none;
     padding: 1vh 2vh;
@@ -189,3 +183,8 @@ ul {
     
     padding-right: 1.3vw;
 }
+/* i.fas.fa-star {
+    color: #FAA519;
+    margin-right: 8px;
+  } */
+

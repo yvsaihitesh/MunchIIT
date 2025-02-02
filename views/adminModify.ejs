@@ -4,116 +4,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Modify Items</title>
+    <title>Admin Modify Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="/admin.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body>
-    <div class="container mt-4">
-        <h1>Admin Modify Items</h1>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (items && items.length> 0) { %>
-                    <% items.forEach(item=> { %>
-                        <tr>
-                            <td>
-                                <%= item.ItemName %>
-                            </td>
-                            <td>₹<%= item.Price %>
-                            </td>
-                            <td>
-                                <form action="/adminModify/<%= item._id %>" method="POST">
-                                    <select name="status" onchange="this.form.submit()">
-                                        <option value="In Stock" <%=item.status==='In Stock' ? 'selected' : '' %>>In
-                                            Stock</option>
-                                        <option value="Out of Stock" <%=item.status==='Out of Stock' ? 'selected' : ''
-                                            %>>Out of Stock</option>
-                                    </select>
-                                </form>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" onclick="deleteItem('<%= item._id %>')">Delete</button>
-                            </td>
-                        </tr>
+<body class="bg-light">
+    <div class="d-flex justify-content-between align-items-center mb-2 mt-2 me-4 header">
+        <h1 class="ms-2 mt-1"><i class="bi bi-pencil-square"></i>Modify Items</h1>
+        <a href="/" class="continueShopping">
+            <i class="bi bi-arrow-left"></i> Home
+        </a>
+    </div>
+    <div class="container">
+        <!-- Scroll to Form Button -->
+        <a href="#addItemForm" class="btn btn-secondary mb-3">Add New Item</a>
+
+        <!-- Items Table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Item Image</th>
+                        <th>Item Name</th>
+                        <th>Updation</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (items && items.length > 0) { %>
+                        <% items.forEach(item => { %>
+                            <tr>
+                                <td>
+                                    <img src="<%= item.image %>" alt="<%= item.ItemName %>" class="cart-item-image img-fluid">
+                                </td>
+                                <td><%= item.ItemName %></td>
+                                <td>
+                                    <form action="/adminModify/<%= item._id %>" method="POST" class="d-flex">
+                                        <input type="number" name="Price" class="form-control me-2" value="<%= item.Price %>" required>
+                                        <select name="status" class="form-select me-2" onchange="this.form.submit()">
+                                            <option value="In Stock" <%= item.status === 'In Stock' ? 'selected' : '' %>>In Stock</option>
+                                            <option value="Out of Stock" <%= item.status === 'Out of Stock' ? 'selected' : '' %>>Out of Stock</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary btn-sm me-2">Update</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteItem('<%= item._id %>')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
                         <% }); %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="4" class="text-center">No items found</td>
-                                </tr>
-                                <% } %>
-            </tbody>
-        </table>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center">No items found</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Add New Item Form -->
-        <h2>Add New Item</h2>
-        <form action="/admin/addItem" method="POST">
-            <div class="mb-3">
-                <label for="ItemName" class="form-label">Item Name</label>
-                <input type="text" class="form-control" id="ItemName" name="ItemName" required>
+         <div class="newItemForm">
+        <h2 class="mt-5" id="addItemForm">Add New Item</h2>
+        <form action="/admin/addItem" method="POST" class="needs-validation" novalidate>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="ItemName" class="form-label">Item Name</label>
+                    <input type="text" class="form-control" id="ItemName" name="ItemName" required>
+                    <div class="invalid-feedback">Please provide a valid item name.</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="Price" class="form-label">Price (₹)</label>
+                    <input type="number" class="form-control" id="Price" name="Price" required>
+                    <div class="invalid-feedback">Please provide a valid price.</div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="Price" class="form-label">Price (₹)</label>
-                <input type="number" class="form-control" id="Price" name="Price" required>
-            </div>
+
             <div class="mb-3">
                 <label for="ingredients" class="form-label">Ingredients (comma-separated)</label>
                 <input type="text" class="form-control" id="ingredients" name="ingredients" required>
+                <div class="invalid-feedback">Please provide the ingredients.</div>
             </div>
+
             <div class="mb-3">
                 <label for="Category" class="form-label">Category</label>
                 <input type="text" class="form-control" id="Category" name="Category" required>
+                <div class="invalid-feedback">Please provide a category.</div>
             </div>
+
             <div class="mb-3">
                 <label for="image" class="form-label">Image URL</label>
                 <input type="text" class="form-control" id="image" name="image" required>
+                <div class="invalid-feedback">Please provide an image URL.</div>
             </div>
+
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
-                <select class="form-control" id="status" name="status" required>
+                <select class="form-select" id="status" name="status" required>
                     <option value="In Stock">In Stock</option>
                     <option value="Out of Stock">Out of Stock</option>
                 </select>
+                <div class="invalid-feedback">Please select a status.</div>
             </div>
-            <button type="submit" class="btn btn-primary">Add Item</button>
+
+            <button type="submit" class="btn btn-primary itemAddition">Add Item</button>
         </form>
     </div>
+</div>
 
     <script>
-        const addItemForm = document.getElementById('addItemForm');
-        addItemForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(addItemForm);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = key === 'ingredients' ? value.split(',').map(i => i.trim()) : value;
-            });
-
-            try {
-                const response = await fetch('/admin/addItem', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
-
-                if (response.ok) {
-                    alert('Item added successfully!');
-                    location.reload();
-                } else {
-                    alert('Failed to add item.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while adding the item.');
+        const addItemForm = document.querySelector('form');
+        addItemForm.addEventListener('submit', function (event) {
+            if (!addItemForm.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
             }
+            addItemForm.classList.add('was-validated');
         });
 
         function deleteItem(itemId) {
@@ -135,7 +145,6 @@
                     });
             }
         }
-
     </script>
 </body>
 
