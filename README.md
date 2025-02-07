@@ -14,7 +14,7 @@ Our project MunchIIT aims to develop a user-friendly website for our College can
     * A `Cart Page` which displays all the items added by the customer to his cart.
     * Track Order option which displays the status of the order.
 
-### Team Web-wizards
+### Team Web-Wizards
 👨‍🦰[Imandi Balaji](https://github.com/balajiimandi2904)  
 👨‍🦰[Reddy Jaideep](https://github.com/Jaideep718)  
 👨‍🦰[Y. V. Sai Hitesh](https://github.com/yvsaihitesh)  
