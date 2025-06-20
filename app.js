@@ -11,6 +11,7 @@ const { isLoggedIn , isReviewAuthor } = require('./middleware')
 const methodOverride = require('method-override');
 const cors = require('cors');
 const { zonedTimeToUtc } = require('date-fns-tz');
+require('dotenv').config();
 
 const User = require('./models/user');
 const Item = require('./models/foodItem');
@@ -24,7 +25,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-mongoose.connect('mongodb://localhost:27017/canteen');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -34,6 +34,11 @@ app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/canteen', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -42,15 +47,17 @@ db.once("open", () => {
 
 const sessionConfig = {
     name: 'session',
-    secret: "bettersecret",
+    secret: process.env.SESSION_SECRET || 'bettersecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
 };
+
 app.use(flash())
 app.use(session(sessionConfig));
 
@@ -78,46 +85,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-// app.get('/register', (req, res) => {
-//     res.render('users/register');
-// });
-
-<<<<<<< HEAD
-app.get('/orders',isLoggedIn, async (req, res) => {
-=======
-// app.get('/orders', async (req, res) => {
-//     if (!req.user) {
-//         req.flash('error', 'You must be logged in to view your orders.');
-//         return res.redirect('/login');
-//     }
-
-//     try {
-//         const orders = await Order.find({ user: req.user._id }).populate('items.item');
-//         res.render('orders', { orders });
-//     } catch (error) {
-//         console.error('Error retrieving orders:', error);
-//         req.flash('error', 'Failed to retrieve orders.');
-//         res.redirect('/');
-//     }
-// });
-// app.get('/orders', async (req, res) => {
-//     if (!req.user) {
-//         req.flash('error', 'You must be logged in to view your orders.');
-//         return res.redirect('/login');
-//     }
-
-//     try {
-//         const orders = await Order.find({ user: req.user._id }).populate('items.item');
-//         console.log(orders); // Log the orders to see their structure
-//         res.render('orders', { orders });
-//     } catch (error) {
-//         console.error('Error retrieving orders:', error);
-//         req.flash('error', 'Failed to retrieve orders.');
-//         res.redirect('/');
-//     }
-// });
 app.get('/orders', async (req, res) => {
->>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
     if (!req.user) {
         req.flash('error', 'You must be logged in to view your orders.');
         return res.redirect('/login');
@@ -263,37 +231,6 @@ app.get('/login', (req, res) => {
     res.render('users/loginRegister');
 });
 
-<<<<<<< HEAD
-app.get('/profile', (req, res) => {
-    res.render('profile');
-});
-
-app.get('/admin/orderHistory',isLoggedIn, async (req, res) => {
-    const { startDate, endDate } = req.query;
-
-    if (!startDate || !endDate) {
-        req.flash('error', 'Please provide both start and end dates.');
-        return res.redirect('/admin');
-    }
-    try {
-        // Convert to UTC
-        const start = new Date(startDate + 'T00:00:00Z'); // Start of the day in UTC
-        const end = new Date(endDate + 'T23:59:59Z'); // End of the day in UTC
-
-        console.log('Parsed Start Date:', start);
-        console.log('Parsed End Date:', end);
-
-        // Query the PreviousOrder collection
-        const previousOrders = await PreviousOrder.find({
-            createdAt: {
-                $gte: start,
-                $lte: end
-            }
-        }).populate('user', 'username email');
-        console.log('Previous Orders found:', previousOrders);
-        const totalAmount = previousOrders.reduce((sum, order) => sum + order.totalAmount, 0);
-        res.render('orderHistory', { previousOrders, totalAmount, startDate, endDate });
-=======
 app.post('/adminModify/:id', async (req, res) => {
     const { id } = req.params;
     const { status, Price } = req.body; 
@@ -318,7 +255,6 @@ app.get('/profile', async (req, res) => {
         const user = await User.findById(req.user._id);
         const previousOrders = await PreviousOrder.find({ user: req.user._id }).populate('items.item');
         res.render('profile', { user, previousOrders });
->>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
     } catch (error) {
         console.error('Error fetching user data:', error);
         req.flash('error', 'Failed to fetch user data.');
@@ -341,15 +277,11 @@ app.get('/orderHistory', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.get('/admin', isLoggedIn,async (req, res) => {
-=======
 app.get('/admin', async (req, res) => {
     if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
         req.flash('error',"you don't have permission to access this page .")
         return res.redirect('/login')
     }
->>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
     try {
         const orders = await Order.find({})
             .populate('user', 'username email')
@@ -361,16 +293,10 @@ app.get('/admin', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.get('/adminModify', isLoggedIn,async (req, res) => {
-    if(req.user.username !== "AdminIITDH"){
-        res.flash('error',"you don't have permission to access this page .")
-=======
 app.get('/adminModify', async (req, res) => {
     if(res.locals.currentUser && res.locals.currentUser.username !== 'AdminIITDH'){
         req.flash('error',"you don't have permission to access this page .")
         return res.redirect('/login')
->>>>>>> ab51ac1ebdbbe67918e37af5c597566a898c9f70
     }
     try {
         const items = await Item.find({});
@@ -662,7 +588,7 @@ app.post('/orders/:id/deliver', async (req, res) => {
     }
 });
 
-
-app.listen('8080', () => {
-    console.log("server is responding on 8080.");
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
 });
